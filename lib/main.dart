@@ -1,7 +1,6 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:animated_background/particles.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
-import 'package:co_two/scan.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -55,8 +54,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -240,11 +237,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             onPressed: () {},
             child: Text(
               "Mein Raum",
+              style: TextStyle(fontSize: 18),
               // style: Theme.of(context).textTheme.headline5,
             ),
             borderSide: BorderSide(color: Colors.white),
             textColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 90.0)),
+            padding: EdgeInsets.symmetric(horizontal: 150.0, vertical: 15.0)),
       ),
     );
   }

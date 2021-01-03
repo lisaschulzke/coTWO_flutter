@@ -1,3 +1,4 @@
+import 'package:co_two/detail.dart';
 import 'package:co_two/main.dart';
 import 'package:co_two/scan.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class CustomScaffold extends StatelessWidget {
     // stackchildren contains elipse, because this is what i want to have in every screen
     stackChildren.add(_buildElipse(context));
 
-    
+
     this.children.forEach((child) {
       stackChildren.add(child);
     });
@@ -65,7 +66,10 @@ class CustomScaffold extends StatelessWidget {
             ListTile(
               title: Text("Journal"),
               onTap: () {
-                // Navigation to detail? is this necessary?
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Detail()),
+                );
               },
             )
           ],
