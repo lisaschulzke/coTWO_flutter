@@ -66,6 +66,7 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                                 color: widget.color),
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 widget.title,
@@ -84,8 +85,7 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                           ),
                         ]),
                         padding: EdgeInsets.all(7),
-                        margin: EdgeInsets.only(left: 20.0, right: 0.0),
-                        width: 100,
+                        margin: EdgeInsets.only(left: 10.0, right: 0.0),
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
