@@ -11,7 +11,12 @@ class StateControl extends ChangeNotifier {
 
   void addRoom(Map<String, dynamic> roomData) {
     //to prevent double scanning
-    if (!_rooms.contains(roomData)) {
+    List<String> titles = [];
+    for (var room in _rooms) {
+      titles.add(room["title"]);
+    }
+
+    if (!titles.contains(roomData["title"])) {
       _rooms.add(roomData);
       notifyListeners();
     }

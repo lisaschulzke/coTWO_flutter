@@ -47,7 +47,6 @@ class _ScanState extends State<Scan> {
                           Provider.of<StateControl>(context, listen: false).addRoom(newRoom);
                           setState(() {
                             _data = response;
-                            _scanned = "";
                           });
                         }
                       },
