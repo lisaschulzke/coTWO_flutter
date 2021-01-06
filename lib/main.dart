@@ -1,5 +1,4 @@
-import 'package:animated_background/animated_background.dart';
-import 'package:animated_background/particles.dart';
+import 'package:co_two/compnents/custom_card.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
 import 'package:co_two/scan.dart';
 import 'package:flutter/material.dart';
@@ -79,205 +78,223 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           mainAxisSpacing: 8,
           padding: EdgeInsets.all(10),
           children: [
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AnimatedBackground(
-                  behaviour: RandomParticleBehaviour(
-                    options: ParticleOptions(
-                      particleCount: 500,
-                      spawnMinSpeed: 1.2,
-                      spawnMaxSpeed: 5.5,
-                      baseColor: Color(0xff81B9BF),
-                      minOpacity: 0.1,
-                      maxOpacity: 0.9,
-                    ),
-                  ),
-                  vsync: this,
-                  child: Container(),
-                ),
-              ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.white70, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
+            CustomCard(
+              title: "H 2.12",
+              subtitle: "Klasse 1a",
+              particleCount: 50,
+              color: Colors.greenAccent[100],
             ),
+            CustomCard(
+              title: "H 2.13",
+              subtitle: "Klasse 1b",
+              particleCount: 150,
+              color: Colors.yellowAccent[100],
+            ),
+            CustomCard(
+                particleCount: 500,
+                title: "B 0.07",
+                subtitle: "Klasse 2a",
+                color: Colors.redAccent[100])
 
-            //Card pattern for extracting component
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AnimatedBackground(
-                  behaviour: RandomParticleBehaviour(
-                    options: ParticleOptions(
-                      //TODO: make the count dynamic
-                      particleCount: 100,
-                      spawnMinSpeed: 1.2,
-                      spawnMaxSpeed: 5.5,
-                      baseColor: Color(0xff81B9BF),
-                      minOpacity: 0.1,
-                      maxOpacity: 0.9,
-                    ),
-                  ),
-                  vsync: this,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Stack(children: [
-                        Positioned(
-                          // top: 20,
-                          child: Container(
-                              child: Row(children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 10.0),
-                                  height: 17,
-                                  width: 17,
-                                  //TODO: make color dynamic with ppm value
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.yellowAccent[100]),
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "H 2.12",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    Text("Klasse 1a",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 12))
-                                  ],
-                                ),
-                              ]),
-                              padding: EdgeInsets.all(7),
-                              margin: EdgeInsets.only(left: 20.0, right: 0.0),
-                              width: 100,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Theme.of(context).primaryColor,
-                              )),
-                        ),
-                      ])
-                    ],
-                  ),
-                ),
-              ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.white70, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AnimatedBackground(
-                  behaviour: RandomParticleBehaviour(
-                    options: ParticleOptions(
-                      particleCount: 50,
-                      spawnMinSpeed: 1.2,
-                      spawnMaxSpeed: 5.5,
-                      baseColor: Color(0xff81B9BF),
-                      minOpacity: 0.1,
-                      maxOpacity: 0.9,
-                    ),
-                  ),
-                  vsync: this,
-                  child: Container(),
-                ),
-              ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.white70, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AnimatedBackground(
-                  behaviour: RandomParticleBehaviour(
-                    options: ParticleOptions(
-                      particleCount: 200,
-                      spawnMinSpeed: 1.2,
-                      spawnMaxSpeed: 5.5,
-                      baseColor: Color(0xff81B9BF),
-                      minOpacity: 0.1,
-                      maxOpacity: 0.9,
-                    ),
-                  ),
-                  vsync: this,
-                  child: Container(),
-                ),
-              ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.white70, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AnimatedBackground(
-                  behaviour: RandomParticleBehaviour(
-                    options: ParticleOptions(
-                      particleCount: 75,
-                      spawnMinSpeed: 1.2,
-                      spawnMaxSpeed: 5.5,
-                      baseColor: Color(0xff81B9BF),
-                      minOpacity: 0.1,
-                      maxOpacity: 0.9,
-                    ),
-                  ),
-                  vsync: this,
-                  child: Container(),
-                ),
-              ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.white70, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            Card(
-              elevation: 0,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: AnimatedBackground(
-                  behaviour: RandomParticleBehaviour(
-                    options: ParticleOptions(
-                      particleCount: 40,
-                      spawnMinSpeed: 1.2,
-                      spawnMaxSpeed: 5.5,
-                      baseColor: Color(0xff81B9BF),
-                      minOpacity: 0.1,
-                      maxOpacity: 0.9,
-                    ),
-                  ),
-                  vsync: this,
-                  child: Container(),
-                ),
-              ),
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.white70, width: 1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
+            // Card(
+            //   elevation: 0,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: AnimatedBackground(
+            //       behaviour: RandomParticleBehaviour(
+            //         options: ParticleOptions(
+            //           particleCount: 500,
+            //           spawnMinSpeed: 1.2,
+            //           spawnMaxSpeed: 5.5,
+            //           baseColor: Color(0xff81B9BF),
+            //           minOpacity: 0.1,
+            //           maxOpacity: 0.9,
+            //         ),
+            //       ),
+            //       vsync: this,
+            //       child: Container(),
+            //     ),
+            //   ),
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     side: BorderSide(color: Colors.white70, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
+
+            // //Card pattern for extracting component
+            // Card(
+            //   elevation: 0,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: AnimatedBackground(
+            //       behaviour: RandomParticleBehaviour(
+            //         options: ParticleOptions(
+            //           //TODO: make the count dynamic
+            //           particleCount: 100,
+            //           spawnMinSpeed: 1.2,
+            //           spawnMaxSpeed: 5.5,
+            //           baseColor: Color(0xff81B9BF),
+            //           minOpacity: 0.1,
+            //           maxOpacity: 0.9,
+            //         ),
+            //       ),
+            //       vsync: this,
+            //       child: Row(
+            //         mainAxisSize: MainAxisSize.min,
+            //         mainAxisAlignment: MainAxisAlignment.end,
+            //         crossAxisAlignment: CrossAxisAlignment.end,
+            //         children: [
+            //           Stack(children: [
+            //             Positioned(
+            //               // top: 20,
+            //               child: Container(
+            //                   child: Row(children: [
+            //                     Container(
+            //                       margin: EdgeInsets.only(right: 10.0),
+            //                       height: 17,
+            //                       width: 17,
+            //                       //TODO: make color dynamic with ppm value
+            //                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: Colors.yellowAccent[100]),
+            //                     ),
+            //                     Column(
+            //                       children: [
+            //                         Text(
+            //                           "H 2.12",
+            //                           style: TextStyle(
+            //                             color: Colors.white,
+            //                             fontWeight: FontWeight.bold,
+            //                             fontSize: 16,
+            //                           ),
+            //                         ),
+            //                         Text("Klasse 1a",
+            //                             style: TextStyle(
+            //                                 color: Colors.white,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 fontSize: 12))
+            //                       ],
+            //                     ),
+            //                   ]),
+            //                   padding: EdgeInsets.all(7),
+            //                   margin: EdgeInsets.only(left: 20.0, right: 0.0),
+            //                   width: 100,
+            //                   height: 50,
+            //                   decoration: BoxDecoration(
+            //                     borderRadius: BorderRadius.circular(10),
+            //                     color: Theme.of(context).primaryColor,
+            //                   )),
+            //             ),
+            //           ])
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     side: BorderSide(color: Colors.white70, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
+            // Card(
+            //   elevation: 0,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: AnimatedBackground(
+            //       behaviour: RandomParticleBehaviour(
+            //         options: ParticleOptions(
+            //           particleCount: 50,
+            //           spawnMinSpeed: 1.2,
+            //           spawnMaxSpeed: 5.5,
+            //           baseColor: Color(0xff81B9BF),
+            //           minOpacity: 0.1,
+            //           maxOpacity: 0.9,
+            //         ),
+            //       ),
+            //       vsync: this,
+            //       child: Container(),
+            //     ),
+            //   ),
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     side: BorderSide(color: Colors.white70, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
+            // Card(
+            //   elevation: 0,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: AnimatedBackground(
+            //       behaviour: RandomParticleBehaviour(
+            //         options: ParticleOptions(
+            //           particleCount: 200,
+            //           spawnMinSpeed: 1.2,
+            //           spawnMaxSpeed: 5.5,
+            //           baseColor: Color(0xff81B9BF),
+            //           minOpacity: 0.1,
+            //           maxOpacity: 0.9,
+            //         ),
+            //       ),
+            //       vsync: this,
+            //       child: Container(),
+            //     ),
+            //   ),
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     side: BorderSide(color: Colors.white70, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
+            // Card(
+            //   elevation: 0,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: AnimatedBackground(
+            //       behaviour: RandomParticleBehaviour(
+            //         options: ParticleOptions(
+            //           particleCount: 75,
+            //           spawnMinSpeed: 1.2,
+            //           spawnMaxSpeed: 5.5,
+            //           baseColor: Color(0xff81B9BF),
+            //           minOpacity: 0.1,
+            //           maxOpacity: 0.9,
+            //         ),
+            //       ),
+            //       vsync: this,
+            //       child: Container(),
+            //     ),
+            //   ),
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     side: BorderSide(color: Colors.white70, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
+            // Card(
+            //   elevation: 0,
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: AnimatedBackground(
+            //       behaviour: RandomParticleBehaviour(
+            //         options: ParticleOptions(
+            //           particleCount: 40,
+            //           spawnMinSpeed: 1.2,
+            //           spawnMaxSpeed: 5.5,
+            //           baseColor: Color(0xff81B9BF),
+            //           minOpacity: 0.1,
+            //           maxOpacity: 0.9,
+            //         ),
+            //       ),
+            //       vsync: this,
+            //       child: Container(),
+            //     ),
+            //   ),
+            //   color: Colors.white,
+            //   shape: RoundedRectangleBorder(
+            //     side: BorderSide(color: Colors.white70, width: 1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            // ),
           ],
         ),
       ),
