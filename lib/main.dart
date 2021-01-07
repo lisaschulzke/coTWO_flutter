@@ -106,21 +106,19 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       top: 10,
       width: MediaQuery.of(context).size.width,
       child: Center(
-        child: OutlineButton(
+        child: 
+        OutlineButton.icon(
+            icon: Icon(Icons.camera_alt_rounded),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Scan()),
               );
             },
-            child: Text(
-              "Mein Raum",
-              style: TextStyle(fontSize: 18),
-              // style: Theme.of(context).textTheme.headline5,
-            ),
+            label: Text("Alfred scannen", style: TextStyle(fontSize: 18),),
             borderSide: BorderSide(color: Colors.white),
             textColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 150.0, vertical: 15.0)),
+            padding: EdgeInsets.symmetric(horizontal: 120.0, vertical: 10.0)),
       ),
     );
   }

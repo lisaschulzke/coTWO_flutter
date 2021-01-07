@@ -11,9 +11,28 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "H2.12",
+      subtitle: "Klasse 1a",
       children: [
-        Container(
-
+        Positioned(
+          top: 130,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/1.9,
+            child: Center(
+              child: Container(
+                  child: Card(
+                    child: Container(
+                      
+                    ),
+                elevation: 0,
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.white70, width: 1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              )),
+            ),
+          ),
         ),
       ],
     );
