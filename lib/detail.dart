@@ -2,6 +2,7 @@ import 'package:co_two/compnents/custom_scaffold.dart';
 import 'package:co_two/compnents/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class Detail extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class Detail extends StatefulWidget {
 }
 
 class _DetailState extends State<Detail> {
+  List<bool> _selections = List.generate(3, (_) => false);
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -20,15 +23,76 @@ class _DetailState extends State<Detail> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              //TODO: Buttongroup
-              height: 100,
+              margin: EdgeInsets.only(top: 40, bottom: 20),
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: ToggleSwitch(
+                  minWidth: 200,
+                  fontSize: 18,
+                  inactiveFgColor: Theme.of(context).primaryColor,
+                  cornerRadius: 20,
+                  initialLabelIndex: 0,
+                  labels: ["Heute", "Woche", "Monat"],
+                  activeBgColor: Color(0xff81B9BF),
+                  inactiveBgColor: Colors.white,
+                  onToggle: (index) {
+                    print("switched to $index");
+                  },
+                ),
+                // child: ToggleButtons(
+                //   children: [
+                //     Container(
+                //         width: MediaQuery.of(context).size.width * 0.25,
+                //         child: Center(
+                //             child: Text(
+                //           "heute",
+                //           style: TextStyle(
+                //               fontSize: 18, fontWeight: FontWeight.bold),
+                //         ))),
+                //     Container(
+                //         decoration: BoxDecoration(
+                //             color: ToggleButtons.onPressed()
+                //                 ? Color(0xff81B9BF)
+                //                 : Colors.white),
+                //         width: MediaQuery.of(context).size.width * 0.25,
+                //         child: Center(
+                //             child: Text(
+                //           "Woche",
+                //           style: TextStyle(
+                //               fontSize: 18, fontWeight: FontWeight.bold),
+                //         ))),
+                //     Container(
+                //         width: MediaQuery.of(context).size.width * 0.25,
+                //         child: Center(
+                //             child: Text(
+                //           "Monat",
+                //           style: TextStyle(
+                //               fontSize: 18, fontWeight: FontWeight.bold),
+                //         ))),
+                //   ],
+                //   highlightColor: Colors.white,
+                //   fillColor: Color(0xff81B9BF),
+                //   borderRadius: BorderRadius.circular(20),
+                //   borderColor: Colors.white,
+                //   selectedColor: Colors.white,
+                //   borderWidth: 0.1,
+                //   color: Colors.white,
+                //   // color: Theme.of(context).primaryColor,
+                //   isSelected: _selections,
+                //   onPressed: (int index) {
+                //     setState(() {
+                //       _selections[index] = !_selections[index];
+                //     });
+                //   },
+                //   renderBorder: true,
+                // ),
+              ),
             ),
             Container(
               child: Expanded(
                 child: SingleChildScrollView(
                   child: Container(
-                    // width: MediaQuery.of(context).size.width,
-                    // height: MediaQuery.of(context).size.height,
                     child: Center(
                       child: Column(
                         children: [
@@ -157,8 +221,8 @@ class _DetailState extends State<Detail> {
                                 ),
                                 children: [
                                   Container(
-                                    height:
-                                        MediaQuery.of(context).size.height *0.5,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
                                     width: MediaQuery.of(context).size.width,
                                     margin: EdgeInsets.only(right: 15),
                                     child: Stack(
