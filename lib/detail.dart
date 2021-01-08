@@ -1,6 +1,8 @@
 import 'package:co_two/compnents/custom_scaffold.dart';
+import 'package:co_two/compnents/empty_screen.dart';
 import 'package:co_two/compnents/graph.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
@@ -11,9 +13,23 @@ class Detail extends StatefulWidget {
 
 class _DetailState extends State<Detail> {
   List<bool> _selections = List.generate(3, (_) => false);
+  bool _active = false;
+
+  void _toggleActiveState(int index) {
+    setState(() {
+      if (_active) {
+        _active = false;
+        print(_active);
+        print(index);
+      } else {
+        _active = true;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(_active);
     return CustomScaffold(
       title: "H2.12",
       subtitle: "Klasse 1a",
@@ -36,207 +52,95 @@ class _DetailState extends State<Detail> {
                   labels: ["Heute", "Woche", "Monat"],
                   activeBgColor: Color(0xff81B9BF),
                   inactiveBgColor: Colors.white,
-                  onToggle: (index) {
-                    print("switched to $index");
-                  },
+                  onToggle: _toggleActiveState,
                 ),
-                // child: ToggleButtons(
-                //   children: [
-                //     Container(
-                //         width: MediaQuery.of(context).size.width * 0.25,
-                //         child: Center(
-                //             child: Text(
-                //           "heute",
-                //           style: TextStyle(
-                //               fontSize: 18, fontWeight: FontWeight.bold),
-                //         ))),
-                //     Container(
-                //         decoration: BoxDecoration(
-                //             color: ToggleButtons.onPressed()
-                //                 ? Color(0xff81B9BF)
-                //                 : Colors.white),
-                //         width: MediaQuery.of(context).size.width * 0.25,
-                //         child: Center(
-                //             child: Text(
-                //           "Woche",
-                //           style: TextStyle(
-                //               fontSize: 18, fontWeight: FontWeight.bold),
-                //         ))),
-                //     Container(
-                //         width: MediaQuery.of(context).size.width * 0.25,
-                //         child: Center(
-                //             child: Text(
-                //           "Monat",
-                //           style: TextStyle(
-                //               fontSize: 18, fontWeight: FontWeight.bold),
-                //         ))),
-                //   ],
-                //   highlightColor: Colors.white,
-                //   fillColor: Color(0xff81B9BF),
-                //   borderRadius: BorderRadius.circular(20),
-                //   borderColor: Colors.white,
-                //   selectedColor: Colors.white,
-                //   borderWidth: 0.1,
-                //   color: Colors.white,
-                //   // color: Theme.of(context).primaryColor,
-                //   isSelected: _selections,
-                //   onPressed: (int index) {
-                //     setState(() {
-                //       _selections[index] = !_selections[index];
-                //     });
-                //   },
-                //   renderBorder: true,
-                // ),
               ),
             ),
             Container(
               child: Expanded(
                 child: SingleChildScrollView(
                   child: Container(
-                    child: Center(
+                    child: (_active
+                              ? Container(
+                                height: 200,
+                                width: 200,
+                                color: Colors.red,
+                              )
+                              : Center(
                       child: Column(
                         children: [
-                          // Card(
-                          //   child: Container(
-                          //     height: MediaQuery.of(context).size.height / 2.09,
-                          //     width: MediaQuery.of(context).size.width / 1.05,
-                          //     child: Column(
-                          //       children: [
-                          //         Stack(
-                          //           children: [
-                          //             ExpansionTile(
-                          //               title: Text("CO2"),
-                          //               leading: Icon(Icons.circle),
-                          //                                                     children: [
-                          //                 Row(
-                          //                   children: [
-                          //                     Container(
-                          //                       height: 20,
-                          //                       width: 20,
-                          //                       // margin: EdgeInsets.only(right: 15),
-                          //                       decoration: BoxDecoration(
-                          //                           borderRadius:
-                          //                               BorderRadius.circular(100),
-                          //                           color: Colors.red),
-                          //                     ),
-                          //                     Text(
-                          //                       "CO2",
-                          //                       style: TextStyle(
-                          //                           color: Theme.of(context)
-                          //                               .primaryColor,
-                          //                           fontSize: 28,
-                          //                           fontWeight: FontWeight.bold),
-                          //                     ),
-                          //                     Container(
-                          //                       margin: EdgeInsets.only(left: 90),
-                          //                       child: Text(
-                          //                         "730",
-                          //                         style: TextStyle(
-                          //                             color: Theme.of(context)
-                          //                                 .primaryColor,
-                          //                             fontSize: 28,
-                          //                             fontWeight: FontWeight.bold),
-                          //                       ),
-                          //                     ),
-                          //                     Container(
-                          //                       margin: EdgeInsets.only(left: 8),
-                          //                       child: Text(
-                          //                         "ppm",
-                          //                         style: TextStyle(
-                          //                             color: Theme.of(context)
-                          //                                 .primaryColor,
-                          //                             fontSize: 20,
-                          //                             fontWeight: FontWeight.bold),
-                          //                       ),
-                          //                     ),
-                          //                   ],
-                          //                 ),
-                          //               ],
-                          //             ),
-                          //             Container(
-                          //               margin: EdgeInsets.only(
-                          //                   top: 90, bottom: 10),
-                          //               child: LineChartSample2(),
-                          //             ),
-                          //           ],
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     margin: EdgeInsets.all(20),
-                          //   ),
-                          //   elevation: 0,
-                          //   color: Colors.white,
-                          //   shape: RoundedRectangleBorder(
-                          //     side: BorderSide(color: Colors.white70, width: 1),
-                          //     borderRadius: BorderRadius.circular(20),
-                          //   ),
-                          // ),
                           Card(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: ExpansionTile(
-                                initiallyExpanded: true,
-                                title: Row(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(left: 0),
-                                      child: Text(
-                                        "CO2",
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 30),
-                                      child: Text(
-                                        "735",
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 7, top: 5),
-                                      child: Text(
-                                        "ppm",
-                                        style: TextStyle(
-                                          color: Theme.of(context).primaryColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                leading: Icon(
-                                  Icons.circle,
-                                  color: Colors.green,
-                                  size: 23,
-                                ),
-                                children: [
-                                  Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.5,
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: EdgeInsets.only(right: 15),
-                                    child: Stack(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: ExpansionTile(
+                                    initiallyExpanded: true,
+                                    title: Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.only(
-                                              top: 90, bottom: 10),
-                                          child: LineChartSample2(),
+                                          margin: EdgeInsets.only(left: 0),
+                                          child: Text(
+                                            "CO2",
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 30),
+                                          child: Text(
+                                            "735",
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin:
+                                              EdgeInsets.only(left: 7, top: 5),
+                                          child: Text(
+                                            "ppm",
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        )
                                       ],
                                     ),
-                                  ),
-                                ],
-                              )),
+                                    leading: Icon(
+                                      Icons.circle,
+                                      color: Colors.green,
+                                      size: 23,
+                                    ),
+                                    children: [
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.5,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        margin: EdgeInsets.only(right: 15),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 90, bottom: 10),
+                                              child: LineChartSample2(),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                           Card(
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -369,7 +273,7 @@ class _DetailState extends State<Detail> {
                               ))
                         ],
                       ),
-                    ),
+                    )),
                   ),
                 ),
               ),
