@@ -77,32 +77,32 @@ class CustomScaffold extends StatelessWidget {
         ),
       ),
       body: Stack(
-        children: stackChildren,
-      ),
+          children: stackChildren,
+        ),
     );
   }
 
   Widget _buildElipse(BuildContext context) {
     return Positioned(
-      top: 0,
-      child: Container(
-        child: Text(
-          this.subtitle,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.normal,
-            color: Colors.white,
-          ),
-        ),
-        padding: EdgeInsets.only(left: 75),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.2,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(
-              bottom: Radius.elliptical(MediaQuery.of(context).size.width, 60)),
-          color: Color(0xffC677792),
-        ),
+        top: 0,
+        child: Container(
+    child: Text(
+      this.subtitle,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.normal,
+        color: Colors.white,
       ),
-    );
+    ),
+    padding: EdgeInsets.only(left: 75),
+    width: MediaQuery.of(context).size.width,
+    height: MediaQuery.of(context).size.height * 0.2,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.vertical(
+          bottom: Radius.elliptical(MediaQuery.of(context).size.width, 60)),
+      color: Color(0xffC677792),
+    ),
+        ),
+      );
   }
 }

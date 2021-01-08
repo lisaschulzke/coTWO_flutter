@@ -28,7 +28,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 color: Colors.white),
             child: Padding(
               padding: const EdgeInsets.only(
-                  right: 0.0, left: 1.0, top: 24, bottom: 12),
+                  right: 1.0, left: 10.0, top: 0, bottom: 0),
               child: LineChart(
                 mainData(),
               ),
