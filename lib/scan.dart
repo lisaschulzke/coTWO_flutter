@@ -19,6 +19,7 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "Scan einen Raum",
+      subtitle: " ",
       children: [
         Container(
           width: MediaQuery.of(context).size.width,

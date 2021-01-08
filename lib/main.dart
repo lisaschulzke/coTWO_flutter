@@ -63,6 +63,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "Hallo",
+      subtitle: " ",
       children: [
         _buildGridView(),
         _buildScanButton(),
