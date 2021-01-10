@@ -78,6 +78,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       child: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
+        // Consumer ruft diesen einen Change Notifier auf, und erlaubt Datenzugriff auf StateControl
         child: Consumer<StateControl>(
           builder: (context, stateControl, child) {
             return GridView.builder(
@@ -91,8 +92,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               itemBuilder: (BuildContext context, int index) {
                 return CustomCard(
                     particleCount: (index + 1) * 50,
-                    title: stateControl.rooms[index]["title"],
-                    subtitle: stateControl.rooms[index]["subtitle"],
+                    room: stateControl.rooms[index],
                     color: Colors.greenAccent);
               },
             );
@@ -107,20 +107,52 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       top: 10,
       width: MediaQuery.of(context).size.width,
       child: Center(
-        child: 
-        OutlineButton.icon(
-            icon: Icon(Icons.camera_alt_rounded),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Scan()),
-              );
-            },
-            label: Text("Alfred scannen", style: TextStyle(fontSize: 18),),
-            borderSide: BorderSide(color: Colors.white),
-            textColor: Colors.white,
-            padding: EdgeInsets.symmetric(horizontal: 120.0, vertical: 10.0)),
-      ),
+          child: Container(
+            width: MediaQuery.of(context).size.width*0.9,
+            child: FlatButton(
+              height: 40,
+                color: Color(0xff677792),
+                shape: RoundedRectangleBorder(side: BorderSide(
+              color: Colors.white,
+              width: 1,
+              style: BorderStyle.solid
+            ), borderRadius: BorderRadius.circular(20)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Scan()),
+                  );
+                },
+                child: Center(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Text(
+                          "Alfred scannen",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                      Icon(Icons.camera_alt_rounded),
+                    ],
+                  ),
+                )),
+          )
+          // OutlineButton.icon(
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => Scan()),
+          //       );
+          //     },
+          //     label: Text("Alfred scannen", style: TextStyle(fontSize: 18),),
+          //     icon: Icon(Icons.camera_alt_rounded),
+          //     borderSide: BorderSide(color: Colors.white),
+          //     textColor: Colors.white,
+          //     padding: EdgeInsets.symmetric(horizontal: 120.0, vertical: 10.0)),
+          ),
     );
   }
 }

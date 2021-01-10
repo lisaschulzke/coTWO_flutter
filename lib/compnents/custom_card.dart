@@ -6,8 +6,7 @@ class CustomCard extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //self defined properties to customize customScaffold widget
   final List<Widget> children; // which content is displayed
-  final String title;
-  final String subtitle;
+  final Map<String, dynamic> room;
   final Color color;
   final int particleCount; //what's the name
 
@@ -16,9 +15,8 @@ class CustomCard extends StatefulWidget {
   CustomCard({
     Key key,
     this.children,
+    @required this.room,
     @required this.particleCount,
-    @required this.title,
-    @required this.subtitle,
     @required this.color,
   }) : super(key: key);
 
@@ -31,13 +29,13 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Detail()),
-                  );
-              },
-              child: Card(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Detail(oneRoomData: widget.room,)),
+          );
+        },
+        child: Card(
           elevation: 0,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -77,14 +75,14 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.title,
+                                  widget.room["title"],
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
-                                Text(widget.subtitle,
+                                Text(widget.room["subtitle"],
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w400,
@@ -93,8 +91,9 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                             ),
                           ]),
                           padding: EdgeInsets.all(7),
-                          margin: EdgeInsets.only(left: 10.0, right: 0.0),
+                          // margin: EdgeInsets.only(left: 10.0, right: 0.0),
                           height: 50,
+                          width: 135,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Theme.of(context).primaryColor,

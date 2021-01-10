@@ -1,12 +1,22 @@
 import 'package:co_two/compnents/custom_scaffold.dart';
 import 'package:co_two/compnents/empty_screen.dart';
 import 'package:co_two/compnents/graph.dart';
+import 'package:co_two/compnents/state_control.dart';
+import 'package:co_two/main.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class Detail extends StatefulWidget {
+  final Map<String, dynamic> oneRoomData;
+
+
+//constructor
+  const Detail({Key key, this.oneRoomData}) : super(key: key);
+  
+
   @override
   _DetailState createState() => _DetailState();
 }
@@ -21,11 +31,11 @@ class _DetailState extends State<Detail> {
     print(index);
 
     setState(() {
-      if (index == 1 || index == 2) {
-        _active = true;
-      } else {
-        _active = false;
-      }
+      // if (index == 1 || index == 2) {
+      //   _active = true;
+      // } else {
+      //   _active = false;
+      // }
       _index = index;
     });
   }
@@ -34,8 +44,8 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     print(_active);
     return CustomScaffold(
-      title: "H2.12",
-      subtitle: "Klasse 1a",
+      title: widget.oneRoomData["title"],
+      subtitle: widget.oneRoomData["subtitle"],
       children: [
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -63,14 +73,17 @@ class _DetailState extends State<Detail> {
               child: Expanded(
                 child: SingleChildScrollView(
                   child: Container(
-                    child: (_active
+                    child: (_index == 1 || _index == 2
                         ? Container(
                             height: 200,
                             width: 200,
                             color: Colors.white,
                             child: Text(
-                                "Noch nicht genug Daten gesammelt für diese Ansicht ;)", style: TextStyle(fontSize: 16,
-                                color: Theme.of(context).primaryColor),),
+                              "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).primaryColor),
+                            ),
                           )
                         : Center(
                             child: Column(

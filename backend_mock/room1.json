@@ -1,4 +1,27 @@
 {
     "title": "H2.12",
-    "subtitle": "Klasse 1a"
+    "subtitle": "Klasse 1a",
+
+    "day": [
+        {
+            "timestamp": 39479023,
+            "ppm": 432
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 789
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 1509
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 1271
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 916
+        }
+    ]
 }

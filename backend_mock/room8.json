@@ -1,4 +1,27 @@
 {
     "title": "H 2.19",
-    "subtitle": "Klasse 4b"
+    "subtitle": "Klasse 4b",
+
+    "day": [
+        {
+            "timestamp": 39479023,
+            "ppm": 823
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 1934
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 983
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 761
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 399
+        }
+    ]
 }

@@ -19,40 +19,50 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "Scan einen Raum",
-      subtitle: " ",
+      subtitle: "platziere das Kamerafenster über dem QR-Code, um ihn zu scannen.",
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
           child: Center(
-            child: SizedBox(
-              width: 300.0,
-              height: 300.0,
-              child: _scanned.isEmpty
-                  ? QrCamera(
-                      onError: (context, error) => Text("Error"),
-                      qrCodeCallback: (code) async {
-                        if (code.contains("http://")) {
-                          setState(() {
-                            _scanned = code;
-                          });
-                        }
-                      },
-                    )
-                  : RaisedButton(
-                      onPressed: () async {
-                        print(_scanned);
-                        String response = await http.read(_scanned);
-                        if (response.isNotEmpty) {
-                          // response JSON decode, dann mit methode aus statecontrol dem provider übergeben
-                          var newRoom = json.decode(response);
-                          Provider.of<StateControl>(context, listen: false).addRoom(newRoom);
-                          setState(() {
-                            _data = response;
-                          });
-                        }
-                      },
-                      child: Text("Get data from $_scanned and scan again..."),
-                    ),
+            child: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+              child: Container(
+                  width: 300.0,
+                  height: 300.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: _scanned.isEmpty
+                        ? QrCamera(
+                            fit: BoxFit.cover,
+                            onError: (context, error) => Text("Error"),
+                            qrCodeCallback: (code) async {
+                              if (code.contains("http://")) {
+                                setState(() {
+                                  _scanned = code;
+                                });
+                              }
+                            },
+                          )
+                        : RaisedButton(
+                            onPressed: () async {
+                              print(_scanned);
+                              String response = await http.read(_scanned);
+                              if (response.isNotEmpty) {
+                                // response JSON decode, dann mit methode aus statecontrol dem provider übergeben
+                                var newRoom = json.decode(response);
+                                Provider.of<StateControl>(context,
+                                        listen: false)
+                                    .addRoom(newRoom);
+                                setState(() {
+                                  _data = response;
+                                });
+                              }
+                            },
+                            child: Text(
+                                "Get data from $_scanned and scan again..."),
+                          ),
+                  )),
             ),
           ),
         ),

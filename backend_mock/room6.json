@@ -1,4 +1,27 @@
 {
     "title": "H 2.17",
-    "subtitle": "Klasse 3b"
+    "subtitle": "Klasse 3b",
+
+    "day": [
+        {
+            "timestamp": 39479023,
+            "ppm": 923
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 789
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 1238
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 1230
+        },
+        {
+            "timestamp": 39479023,
+            "ppm": 430
+        }
+    ]
 }
