@@ -1,16 +1,32 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LineChartSample2 extends StatefulWidget {
+class Graph extends StatefulWidget {
+  final Map<String, dynamic> roomData;
+
+  const Graph({Key key, this.roomData}) : super(key: key);
+
   @override
-  _LineChartSample2State createState() => _LineChartSample2State();
+  _GraphState createState() => _GraphState();
 }
 
-class _LineChartSample2State extends State<LineChartSample2> {
+class _GraphState extends State<Graph> {
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
   ];
+
+  List<FlSpot> getSpots() {
+    List<FlSpot> spots = [];
+    print("#### length: ${widget.roomData.length}");
+    for (var i = 0; i < widget.roomData["day"].length; i++) {
+      spots.add(
+        FlSpot((widget.roomData["day"][i]["timestamp"]).toDouble(),
+            (widget.roomData["day"][i]["ppm"]).toDouble()),
+      );
+    }
+    return spots;
+  }
 
   bool showAvg = false;
 
@@ -121,24 +137,14 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: Colors.grey[300], width: 1)),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
+          show: true, border: Border.all(color: Colors.grey[300], width: 1)),
+      minX: widget.roomData["day"][4]["timestamp"].toDouble(),
+      maxX: widget.roomData["day"][0]["timestamp"].toDouble(),
+      minY: 350,
+      maxY: 2500,
       lineBarsData: [
         LineChartBarData(
-          spots: [
-            //TODO: timestamp as x-value and ppm-value as y-value from backend mock
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: getSpots(),
           isCurved: true,
           colors: gradientColors,
           barWidth: 5,

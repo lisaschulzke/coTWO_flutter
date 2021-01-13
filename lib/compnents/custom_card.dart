@@ -25,7 +25,7 @@ class CustomCard extends StatefulWidget {
 }
 
 class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -70,7 +70,7 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                               //TODO: make color dynamic with ppm value
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  color: widget.color),
+                                  color: (widget.room["day"][0]["ppm"] <= 800)? Colors.green : Colors.red),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

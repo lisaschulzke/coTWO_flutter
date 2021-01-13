@@ -161,7 +161,7 @@ class _DetailState extends State<Detail> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     top: 90, bottom: 10),
-                                                child: LineChartSample2(),
+                                                child: Graph(roomData: widget.oneRoomData),
                                               ),
                                             ],
                                           ),
@@ -234,7 +234,7 @@ class _DetailState extends State<Detail> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     top: 90, bottom: 10),
-                                                child: LineChartSample2(),
+                                                child: Graph(roomData: widget.oneRoomData),
                                               ),
                                             ],
                                           ),
@@ -307,7 +307,7 @@ class _DetailState extends State<Detail> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     top: 90, bottom: 10),
-                                                child: LineChartSample2(),
+                                                child: Graph(roomData: widget.oneRoomData),
                                               ),
                                             ],
                                           ),
