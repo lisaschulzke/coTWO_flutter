@@ -25,6 +25,7 @@ class CustomCard extends StatefulWidget {
 }
 
 class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
+  
   @override
   Widget build(BuildContext context) {
     return Container(

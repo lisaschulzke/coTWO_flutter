@@ -12,10 +12,8 @@ import 'package:toggle_switch/toggle_switch.dart';
 class Detail extends StatefulWidget {
   final Map<String, dynamic> oneRoomData;
 
-
 //constructor
   const Detail({Key key, this.oneRoomData}) : super(key: key);
-  
 
   @override
   _DetailState createState() => _DetailState();
@@ -43,6 +41,7 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     print(_active);
+    // print(widget.oneRoomData["day"]);
     return CustomScaffold(
       title: widget.oneRoomData["title"],
       subtitle: widget.oneRoomData["subtitle"],

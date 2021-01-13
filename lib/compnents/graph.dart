@@ -130,6 +130,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       lineBarsData: [
         LineChartBarData(
           spots: [
+            //TODO: timestamp as x-value and ppm-value as y-value from backend mock
             FlSpot(0, 3),
             FlSpot(2.6, 2),
             FlSpot(4.9, 5),
