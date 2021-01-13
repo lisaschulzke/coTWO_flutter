@@ -64,6 +64,7 @@ flutter:
   assets:
     - assets/images/data.png
     - assets/images/warn.png
+    - assets/images/data_blue.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

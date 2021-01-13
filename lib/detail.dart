@@ -74,13 +74,37 @@ class _DetailState extends State<Detail> {
                   child: Container(
                     child: (_index == 1 || _index == 2
                         ? Container(
-                            height: 200,
-                            width: 200,
-                            color: Colors.white,
-                            child: Container(
-                              child: Image.asset('assets/images/data.png',
-                              height: 200,
-                              width: 200,)
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            width: 150,
+                            child: Center(
+                              child: Card(
+                                margin: EdgeInsets.only(left: 20, right: 20),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                        child: Image.asset(
+                                      'assets/images/data_blue.png',
+                                      height: 400,
+                                      width: 400,
+                                    )),
+                                    Container(
+                                      padding:
+                                          EdgeInsets.only(left: 45, right: 45),
+                                      child: Text(
+                                        "Du hast noch nicht genügend Daten gesammelt für diese Ansicht.",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
+                                          color: Theme.of(context).primaryColor,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                             // Text(
                             //   "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
@@ -118,7 +142,9 @@ class _DetailState extends State<Detail> {
                                             child: Text(
                                               // to string necessary because it is a text widget and it always needs to be a string
                                               // and int is not a string so it has to be converted to a string to make it visible in text widget
-                                              widget.oneRoomData["day"][0]["ppm"].toString(),
+                                              widget.oneRoomData["day"][0]
+                                                      ["ppm"]
+                                                  .toString(),
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .primaryColor,
@@ -161,7 +187,9 @@ class _DetailState extends State<Detail> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     top: 90, bottom: 10),
-                                                child: Graph(roomData: widget.oneRoomData),
+                                                child: Graph(
+                                                    roomData:
+                                                        widget.oneRoomData),
                                               ),
                                             ],
                                           ),
@@ -234,7 +262,9 @@ class _DetailState extends State<Detail> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     top: 90, bottom: 10),
-                                                child: Graph(roomData: widget.oneRoomData),
+                                                child: Graph(
+                                                    roomData:
+                                                        widget.oneRoomData),
                                               ),
                                             ],
                                           ),
@@ -307,7 +337,9 @@ class _DetailState extends State<Detail> {
                                               Container(
                                                 margin: EdgeInsets.only(
                                                     top: 90, bottom: 10),
-                                                child: Graph(roomData: widget.oneRoomData),
+                                                child: Graph(
+                                                    roomData:
+                                                        widget.oneRoomData),
                                               ),
                                             ],
                                           ),
