@@ -77,12 +77,17 @@ class _DetailState extends State<Detail> {
                             height: 200,
                             width: 200,
                             color: Colors.white,
-                            child: Text(
-                              "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).primaryColor),
+                            child: Container(
+                              child: Image.asset('assets/images/data.png',
+                              height: 200,
+                              width: 200,)
                             ),
+                            // Text(
+                            //   "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
+                            //   style: TextStyle(
+                            //       fontSize: 16,
+                            //       color: Theme.of(context).primaryColor),
+                            // ),
                           )
                         : Center(
                             child: Column(
@@ -111,7 +116,9 @@ class _DetailState extends State<Detail> {
                                           Container(
                                             margin: EdgeInsets.only(left: 30),
                                             child: Text(
-                                              "735",
+                                              // to string necessary because it is a text widget and it always needs to be a string
+                                              // and int is not a string so it has to be converted to a string to make it visible in text widget
+                                              widget.oneRoomData["day"][0]["ppm"].toString(),
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .primaryColor,

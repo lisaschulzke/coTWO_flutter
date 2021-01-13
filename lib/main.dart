@@ -90,8 +90,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               itemCount: stateControl.rooms.length,
               padding: EdgeInsets.all(10),
               itemBuilder: (BuildContext context, int index) {
+                print("______________");
+                print(stateControl.rooms);
+                print("______________");
                 return CustomCard(
-                  particleCount: (index + 1) * 50,
+                  particleCount: ((stateControl.rooms[index]["day"][0]["ppm"]) * 0.25).round(),
                   room: stateControl.rooms[index],
                   color: Colors.greenAccent,
                 );
