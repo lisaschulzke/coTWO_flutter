@@ -19,50 +19,80 @@ class _ScanState extends State<Scan> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       title: "Scan einen Raum",
-      subtitle: "platziere das Kamerafenster über dem QR-Code, um ihn zu scannen.",
+      subtitle: " ",
       children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          child: Center(
-            child: Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
-              child: Container(
-                  width: 300.0,
-                  height: 300.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: _scanned.isEmpty
-                        ? QrCamera(
-                            fit: BoxFit.cover,
-                            onError: (context, error) => Text("Error"),
-                            qrCodeCallback: (code) async {
-                              if (code.contains("http://")) {
-                                setState(() {
-                                  _scanned = code;
-                                });
-                              }
-                            },
-                          )
-                        : RaisedButton(
-                            onPressed: () async {
-                              print(_scanned);
-                              String response = await http.read(_scanned);
-                              if (response.isNotEmpty) {
-                                // response JSON decode, dann mit methode aus statecontrol dem provider übergeben
-                                var newRoom = json.decode(response);
-                                Provider.of<StateControl>(context,
-                                        listen: false)
-                                    .addRoom(newRoom);
-                                setState(() {
-                                  _data = response;
-                                });
-                              }
-                            },
-                            child: Text(
-                                "Get data from $_scanned and scan again..."),
-                          ),
-                  )),
+        Positioned(
+          top: 130,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 8.0, color: const Color(0xFFFFFFFF)),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20)),
+                        width: 300.0,
+                        height: 300.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: _scanned.isEmpty
+                              ? QrCamera(
+                                  fit: BoxFit.cover,
+                                  onError: (context, error) => Text("Error"),
+                                  qrCodeCallback: (code) async {
+                                    if (code.contains("http://")) {
+                                      setState(() {
+                                        _scanned = code;
+                                      });
+                                    }
+                                  },
+                                )
+                              : RaisedButton(
+                                  onPressed: () async {
+                                    print(_scanned);
+                                    String response = await http.read(_scanned);
+                                    if (response.isNotEmpty) {
+                                      // response JSON decode, dann mit methode aus statecontrol dem provider übergeben
+                                      var newRoom = json.decode(response);
+                                      Provider.of<StateControl>(context,
+                                              listen: false)
+                                          .addRoom(newRoom);
+                                      setState(() {
+                                        _data = response;
+                                      });
+                                    }
+                                  },
+                                  child: Text(
+                                      "Get data from $_scanned and scan again..."),
+                                ),
+                        )),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 25),
+                    child: Image.asset(
+                      'assets/images/qr_code.png',
+                      height: 150,
+                      width: 150,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 30, left: 55, right: 45),
+                    child: Text(
+                      "Platziere das Scanfenster über einem QR-Code um ihn zu scannen.",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).primaryColor),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

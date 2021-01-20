@@ -148,9 +148,9 @@ class _GraphState extends State<Graph> {
           isCurved: true,
           colors: gradientColors,
           barWidth: 5,
-          isStrokeCapRound: true,
+          isStrokeCapRound: false,
           dotData: FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: true,
