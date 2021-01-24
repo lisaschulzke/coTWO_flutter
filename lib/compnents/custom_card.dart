@@ -1,15 +1,16 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:co_two/detail.dart';
+import 'package:co_two/models/sensor.dart';
 import 'package:flutter/material.dart';
 
 class CustomCard extends StatefulWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //self defined properties to customize customScaffold widget
-  final List<Widget> children; // which content is displayed
-  final Map<String, dynamic> room;
+  //what's the name
+final List<Widget> children; // which content is displayed
+  final Sensor room;
   final Color color;
-  final int particleCount; //what's the name
-
+  final int particleCount; 
 //constructor takes values of properties (e.g. this.title) and puts it into variable (e.g. title)
 //cunstructor only necessary if i want to give individual information by having a global component
   CustomCard({
@@ -21,10 +22,21 @@ class CustomCard extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomCardState createState() => _CustomCardState();
+  _CustomCardState createState() => _CustomCardState(children, room, particleCount, color);
 }
 
 class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
+  final List<Widget> children; // which content is displayed
+  final Sensor room;
+  final Color color;
+  final int particleCount; 
+
+  _CustomCardState(
+    this.children,
+    @required this.room,
+    @required this.particleCount,
+    @required this.color,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +45,10 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => Detail(oneRoomData: widget.room,)),
+            MaterialPageRoute(
+                builder: (context) => Detail(
+                      oneRoomData: widget.room,
+                    )),
           );
         },
         child: Card(
@@ -43,11 +58,11 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
             child: AnimatedBackground(
               behaviour: RandomParticleBehaviour(
                 options: ParticleOptions(
-                  //TODO: make the count dynamic
                   particleCount: widget.particleCount,
                   spawnMinSpeed: 1.2,
                   spawnMaxSpeed: 5.5,
-                  baseColor: Color(0xff81B9BF),
+                  baseColor:Color(0xffD925A9)
+                                      ,
                   minOpacity: 0.1,
                   maxOpacity: 0.9,
                 ),
@@ -70,20 +85,22 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                               //TODO: make color dynamic with ppm value
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  color: (widget.room["day"][0]["ppm"] <= 800)? Colors.green : Colors.red),
+                                  color: (room.measurements.length > 0 ? room.measurements[room.measurements.length-1].co2 : 0) <= 800
+                                      ? Colors.green
+                                      : Colors.red),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  widget.room["title"],
+                                  room.name,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
-                                Text(widget.room["subtitle"],
+                                Text(room.description,
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w400,
@@ -97,7 +114,8 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                           width: 135,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).primaryColor,
+                            // color: Theme.of(context).primaryColor,
+                            color: Color(0xff192360)
                           )),
                     ),
                   ])

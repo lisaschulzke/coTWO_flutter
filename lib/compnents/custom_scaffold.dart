@@ -32,7 +32,7 @@ class CustomScaffold extends StatelessWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color(0xffC0C5CD),
+      backgroundColor: Color(0xffBFAFC3),
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.menu),
@@ -43,39 +43,43 @@ class CustomScaffold extends StatelessWidget {
           this.title,
           style: Theme.of(context).textTheme.headline1,
         ),
-        backgroundColor: Color(0xff677792),
+        backgroundColor: Color(0xff192360),
         elevation: 0,
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            ListTile(
-                title: Text("Home"),
+        
+        child: Container(
+          color: Color(0xff192360),
+          child: ListView(
+            children: [
+              ListTile(
+                  title: Text("Home", style: TextStyle(color: Colors.white),),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home()),
+                    );
+                  }),
+              ListTile(
+                title: Text("Scan", style: TextStyle(color: Colors.white),),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Home()),
+                    MaterialPageRoute(builder: (context) => Scan()),
                   );
-                }),
-            ListTile(
-              title: Text("Scan"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Scan()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text("Journal"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Detail()),
-                );
-              },
-            )
-          ],
+                },
+              ),
+              // ListTile(
+              //   title: Text("Journal"),
+              //   onTap: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => Detail()),
+              //     );
+              //   },
+              // )
+            ],
+          ),
         ),
       ),
       body: Stack(
@@ -102,7 +106,7 @@ class CustomScaffold extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.vertical(
               bottom: Radius.elliptical(MediaQuery.of(context).size.width, 60)),
-          color: Color(0xffC677792),
+          color: Color(0xff192360),
         ),
       ),
     );

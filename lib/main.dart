@@ -1,11 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co_two/compnents/custom_card.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
 import 'package:co_two/compnents/state_control.dart';
+import 'package:co_two/models/sensor.dart';
 import 'package:co_two/scan.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  FirebaseFirestore.instance.collection('sensordata').get().then((value) => {
+        value.docs.forEach((element) {
+          print(element.data());
+        }),
+      });
+
   runApp(ChangeNotifierProvider(
     create: (context) => StateControl(),
     child: MyApp(),
@@ -79,24 +92,42 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         // Consumer ruft diesen einen Change Notifier auf, und erlaubt Datenzugriff auf StateControl
-        child: Consumer<StateControl>(
-          builder: (context, stateControl, child) {
+        child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('sensors_users')
+              .where('userId', isEqualTo: 'hWhoiCnfw1h8qnnU0N5XOm4n5d13')
+              .orderBy('createdAt', descending: true)
+              .snapshots(),
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) return Text('Keine Daten verfügbar.');
+            if (snapshot.data.size == 0) return Text('Keine Daten verfügbar.');
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
-              itemCount: stateControl.rooms.length,
+              itemCount: snapshot.data.size,
               padding: EdgeInsets.all(10),
               itemBuilder: (BuildContext context, int index) {
-                print("______________");
-                print(stateControl.rooms);
-                print("______________");
-                return CustomCard(
-                  particleCount: ((stateControl.rooms[index]["day"][0]["ppm"]) * 0.25).round(),
-                  room: stateControl.rooms[index],
-                  color: Colors.greenAccent,
+                final id = snapshot.data.docs[index].id;
+                return StreamBuilder<DocumentSnapshot>(
+                  stream: querySensor(id),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                    if (!snapshot.hasData)
+                      return Text('Keine Daten verfügbar.');
+                    if (!snapshot.data.exists)
+                      return Text('Keine Daten verfügbar.');
+                    final sensor = Sensor.fromFS(id, snapshot.data.data());
+                    return CustomCard(
+                      particleCount:
+
+                          (sensor.measurements.length > 0 ? sensor.measurements[sensor.measurements.length-1].co2 : 0) * 0.25.round(),
+                      room: sensor,
+                      color: Colors.greenAccent,
+                    );
+                  },
                 );
               },
             );
@@ -115,10 +146,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         width: MediaQuery.of(context).size.width * 0.9,
         child: FlatButton(
             height: 40,
-            color: Color(0xff677792),
+            color: Color(0xffD925A9),
             shape: RoundedRectangleBorder(
                 side: BorderSide(
-                    color: Colors.white, width: 1, style: BorderStyle.solid),
+                    color: Color(0xffA62182),
+                    width: 1,
+                    style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(20)),
             onPressed: () {
               Navigator.push(
@@ -135,10 +168,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     padding: EdgeInsets.only(right: 20),
                     child: Text(
                       "Alfred scannen",
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
-                  Icon(Icons.camera_alt_rounded),
+                  Icon(
+                    Icons.camera_alt_rounded,
+                    color: Colors.white,
+                  ),
                 ],
               ),
             )),
@@ -157,5 +193,25 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           //     padding: EdgeInsets.symmetric(horizontal: 120.0, vertical: 10.0)),
           ),
     );
+  }
+
+  Stream<DocumentSnapshot> querySensor(String id) {
+    FirebaseFirestore.instance
+        .collection('sensordata')
+        .doc('$id')
+        .get()
+        .then((sensor) {
+      return sensor.reference
+          .collection('measurements')
+          .orderBy('time', descending: true)
+          .get()
+          .then((measurements) {
+        List<SensorMeasurement> ms = <SensorMeasurement>[];
+        measurements.docs.forEach((element) {
+          final m = SensorMeasurement.fromJSON(element.data());
+          ms.add(m);
+        });
+      });
+    });
   }
 }

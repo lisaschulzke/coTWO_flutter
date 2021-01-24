@@ -32,6 +32,12 @@ dependencies:
   fl_chart: ^0.12.2
   toggle_switch: ^0.1.8
   shared_preferences: ^0.4.3
+  swipe_gesture_recognizer: ^0.0.2
+  firebase_core:
+  firebase_auth:
+  firebase_messaging:
+  cloud_firestore:
+  rxdart: 
 
 
 provider: ^3.0.0
