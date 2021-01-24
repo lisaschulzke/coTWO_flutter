@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:co_two/compnents/custom_scaffold.dart';
-import 'package:co_two/compnents/state_control.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:http/http.dart' as http;
 
@@ -60,9 +59,9 @@ class _ScanState extends State<Scan> {
                                     if (response.isNotEmpty) {
                                       // response JSON decode, dann mit methode aus statecontrol dem provider übergeben
                                       var newRoom = json.decode(response);
-                                      Provider.of<StateControl>(context,
-                                              listen: false)
-                                          .addRoom(newRoom);
+                                      // Provider.of<StateControl>(context,
+                                      //         listen: false)
+                                      //     .addRoom(newRoom);
                                       setState(() {
                                         _data = response;
                                       });

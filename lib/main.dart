@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co_two/compnents/custom_card.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
-import 'package:co_two/compnents/state_control.dart';
 import 'package:co_two/models/sensor.dart';
 import 'package:co_two/scan.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+
+  await FirebaseAuth.instance
+      .signInWithEmailAndPassword(email: 'admin@test.com', password: 'test123');
 
   FirebaseFirestore.instance.collection('sensordata').get().then((value) => {
         value.docs.forEach((element) {
@@ -19,10 +21,26 @@ Future<void> main() async {
         }),
       });
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => StateControl(),
-    child: MyApp(),
-  ));
+  FirebaseFirestore.instance
+      .collection('sensordata')
+      .doc('00FAA2624C0846ED')
+      .get()
+      .then((sensor) {
+    return sensor.reference
+        .collection('measurements')
+        .orderBy('time', descending: true)
+        .get()
+        .then((measurements) {
+      List<SensorMeasurement> ms = <SensorMeasurement>[];
+      measurements.docs.forEach((element) {
+        print(element);
+        final m = SensorMeasurement.fromJSON(element.data());
+        ms.add(m);
+      });
+    });
+  });
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -71,7 +89,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
@@ -85,6 +103,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   Widget _buildGridView() {
+    print(FirebaseAuth.instance.currentUser);
     return Positioned(
       top: 90,
       right: 0,
@@ -95,12 +114,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('sensors_users')
-              .where('userId', isEqualTo: 'hWhoiCnfw1h8qnnU0N5XOm4n5d13')
+              .where('userId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
               .orderBy('createdAt', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) return Text('Keine Daten verfügbar.');
-            if (snapshot.data.size == 0) return Text('Keine Daten verfügbar.');
+            if (snapshot.data.size == 0) return Text('Liste ist leer');
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -121,9 +140,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                       return Text('Keine Daten verfügbar.');
                     final sensor = Sensor.fromFS(id, snapshot.data.data());
                     return CustomCard(
-                      particleCount:
-
-                          (sensor.measurements.length > 0 ? sensor.measurements[sensor.measurements.length-1].co2 : 0) * 0.25.round(),
+                      particleCount: (sensor.measurements.length > 0
+                              ? sensor
+                                  .measurements[sensor.measurements.length - 1]
+                                  .co2
+                              : 0) *
+                          0.25.round(),
                       room: sensor,
                       color: Colors.greenAccent,
                     );

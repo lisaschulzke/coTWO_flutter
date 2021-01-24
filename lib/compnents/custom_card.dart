@@ -25,7 +25,7 @@ final List<Widget> children; // which content is displayed
   _CustomCardState createState() => _CustomCardState(children, room, particleCount, color);
 }
 
-class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
+class _CustomCardState extends State<CustomCard> {
   final List<Widget> children; // which content is displayed
   final Sensor room;
   final Color color;
@@ -67,7 +67,7 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                   maxOpacity: 0.9,
                 ),
               ),
-              vsync: this,
+              // vsync: this,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
