@@ -93,7 +93,7 @@ class _GraphState extends State<Graph> {
           interval: DiagramControl.getEfficientInterval(control),
           checkToShowTitle: DiagramControl.checkToShowTitle,
           getTextStyles: (value) => const TextStyle(
-              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16),
+              color: Color(0xff67727d), fontWeight: FontWeight.bold, fontSize: 16),
           getTitles: (value) => DiagramControl.mapTimeToLabel(control, value),
           margin: 8,
         ),

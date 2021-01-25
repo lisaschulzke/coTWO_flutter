@@ -25,7 +25,7 @@ final List<Widget> children; // which content is displayed
   _CustomCardState createState() => _CustomCardState(children, room, particleCount, color);
 }
 
-class _CustomCardState extends State<CustomCard> {
+class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
   final List<Widget> children; // which content is displayed
   final Sensor room;
   final Color color;
@@ -58,7 +58,7 @@ class _CustomCardState extends State<CustomCard> {
             child: AnimatedBackground(
               behaviour: RandomParticleBehaviour(
                 options: ParticleOptions(
-                  particleCount: widget.particleCount,
+                  particleCount: (room.measurements[room.measurements.length-1].co2 * 0.25).toInt(),
                   spawnMinSpeed: 1.2,
                   spawnMaxSpeed: 5.5,
                   baseColor:Color(0xffD925A9)
@@ -67,7 +67,7 @@ class _CustomCardState extends State<CustomCard> {
                   maxOpacity: 0.9,
                 ),
               ),
-              // vsync: this,
+              vsync: this,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,

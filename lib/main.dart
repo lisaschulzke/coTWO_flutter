@@ -129,16 +129,16 @@ class _HomeState extends State<Home> {
               itemCount: snapshot.data.size,
               padding: EdgeInsets.all(10),
               itemBuilder: (BuildContext context, int index) {
-                final id = snapshot.data.docs[index].id;
-                return StreamBuilder<DocumentSnapshot>(
+                final id = snapshot.data.docs[index]['sensorId'];
+                return StreamBuilder<Sensor>(
                   stream: querySensor(id),
                   builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      AsyncSnapshot<Sensor> snapshot) {
                     if (!snapshot.hasData)
+                      return Text('Keine Daten verfügbar für Sensor $id');
+                    if (snapshot.data == null)
                       return Text('Keine Daten verfügbar.');
-                    if (!snapshot.data.exists)
-                      return Text('Keine Daten verfügbar.');
-                    final sensor = Sensor.fromFS(id, snapshot.data.data());
+                    final sensor = Sensor(snapshot.data.id, snapshot.data.name, snapshot.data.description, snapshot.data.comment, snapshot.data.measurements);
                     return CustomCard(
                       particleCount: (sensor.measurements.length > 0
                               ? sensor
@@ -189,7 +189,7 @@ class _HomeState extends State<Home> {
                   Container(
                     padding: EdgeInsets.only(right: 20),
                     child: Text(
-                      "Alfred scannen",
+                      "KUB scannen",
                       style: TextStyle(fontSize: 18, color: Colors.white),
                     ),
                   ),
@@ -217,23 +217,24 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Stream<DocumentSnapshot> querySensor(String id) {
-    FirebaseFirestore.instance
+  Stream<Sensor> querySensor(String id) {
+    return FirebaseFirestore.instance
         .collection('sensordata')
         .doc('$id')
         .get()
         .then((sensor) {
-      return sensor.reference
-          .collection('measurements')
-          .orderBy('time', descending: true)
-          .get()
-          .then((measurements) {
-        List<SensorMeasurement> ms = <SensorMeasurement>[];
-        measurements.docs.forEach((element) {
-          final m = SensorMeasurement.fromJSON(element.data());
-          ms.add(m);
-        });
-      });
-    });
+          return sensor.reference
+            .collection('measurements')
+            .orderBy('time', descending: true)
+            .get()
+            .then((measurements) {
+              List<SensorMeasurement> ms = <SensorMeasurement>[];
+              measurements.docs.forEach((element) {
+                final m = SensorMeasurement.fromJSON(element.data());
+                ms.add(m);
+              });
+              return Sensor(id, sensor.data()['name'] ?? '', sensor.data()['description'] ?? '', sensor.data()['comment'] ?? '', ms);
+            });
+        }).asStream();
   }
 }
