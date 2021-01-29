@@ -8,15 +8,18 @@ class CustomScaffold extends StatelessWidget {
   //self defined properties to customize customScaffold widget
   final List<Widget> children; // which content is displayed
   final String title;
-  final String subtitle; //what's the name
+  final String subtitle;
+  final Icon icon; //what's the name
 
 //constructor takes values of properties (e.g. this.title) and puts it into variable (e.g. title)
 //cunstructor only necessary if i want to give individual information by having a global component
   CustomScaffold(
-      {Key key, @required this.children, @required this.title, this.subtitle})
+      {Key key,
+      @required this.children,
+      @required this.title,
+      this.subtitle,
+      this.icon})
       : super(key: key);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +38,23 @@ class CustomScaffold extends StatelessWidget {
       backgroundColor: Color(0xffBFAFC3),
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () => _scaffoldKey.currentState.openDrawer(),
+          icon: this.icon,
+          onPressed: () {
+            if (this.icon != Icon(Icons.arrow_back)) {
+              print('_______________________');
+              print(this.icon);
+              _scaffoldKey.currentState.openDrawer();
+            } else {
+              print('_______________________');
+              print(this.icon);
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Home()));
+            }
+          },
+          // onPressed: () => (Icon(Icons.menu))
+          //     ? _scaffoldKey.currentState.openDrawer()
+          //     : Navigator.push(
+          //         context, MaterialPageRoute(builder: (context) => Home())),
           color: Colors.white,
         ),
         title: Text(
@@ -47,13 +65,15 @@ class CustomScaffold extends StatelessWidget {
         elevation: 0,
       ),
       drawer: Drawer(
-        
         child: Container(
           color: Color(0xff192360),
           child: ListView(
             children: [
               ListTile(
-                  title: Text("Home", style: TextStyle(color: Colors.white),),
+                  title: Text(
+                    "Home",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -61,7 +81,10 @@ class CustomScaffold extends StatelessWidget {
                     );
                   }),
               ListTile(
-                title: Text("Scan", style: TextStyle(color: Colors.white),),
+                title: Text(
+                  "Scan",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onTap: () {
                   Navigator.push(
                     context,

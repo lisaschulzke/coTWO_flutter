@@ -95,6 +95,7 @@ class _HomeState extends State<Home> {
     return CustomScaffold(
       title: "Hallo",
       subtitle: " ",
+      icon: Icon(Icons.menu),
       children: [
         _buildGridView(),
         _buildScanButton(),
@@ -115,6 +116,7 @@ class _HomeState extends State<Home> {
           stream: FirebaseFirestore.instance
               .collection('sensors_users')
               .where('userId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+              // .where('sensors_users', isEqualTo: sensors_users)
               .orderBy('createdAt', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -70,6 +70,7 @@ class _DetailState extends State<Detail> {
             return CustomScaffold(
               title: sensor.name,
               subtitle: sensor.description,
+              icon: Icon(Icons.arrow_back),
               children: [
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
