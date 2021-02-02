@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:co_two/compnents/custom_scaffold.dart';
 import 'package:flutter/material.dart';
-
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +15,8 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.only(right: 20),
       child: CustomScaffold(
+        icon: Icon(Icons.arrow_back),
         title: "KUB scannen",
         subtitle: '''Scanne einen QR-Code um einen 
 neuen Raum hinzuzufügen.''',
@@ -55,6 +53,8 @@ neuen Raum hinzuzufügen.''',
                                       }
                                     },
                                   )
+                                  //this button is to prevent the camera from throwing an error (because once
+                                  //the camera is open, the library does not shut down the camera on its own)
                                 : RaisedButton(
                                     onPressed: () async {
                                       print(_scanned);
@@ -105,7 +105,7 @@ neuen Raum hinzuzufügen.''',
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(32),
               child: Center(
-                child: _data == 0 ? Text("Scan erfolgreich") : Text(" "),
+                child: Text(_data),
               ),
             ),
           )

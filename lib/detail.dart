@@ -34,10 +34,10 @@ class _DetailState extends State<Detail> {
   bool _active = false;
   int _index = 0;
 
+  //method for toggle button which changes state due to index
   void _toggleActiveState(int index) {
     print(_active);
     print(index);
-
     setState(() {
       // if (index == 1 || index == 2) {
       //   _active = true;
@@ -52,14 +52,16 @@ class _DetailState extends State<Detail> {
   Widget build(BuildContext context) {
     DiagramOptions options;
     print(_active);
-    // print(widget.oneRoomData["day"]);
+    //Stream Builder used for refreshing data continiously
     return StreamBuilder<Sensor>(
       stream: querySensor(id),
       builder: (BuildContext context, AsyncSnapshot<Sensor> snapshot) {
+        //if data is not available, show progress indicator (loading data)
         if (!snapshot.hasData)
           return Center(
             child: CircularProgressIndicator(),
           );
+        //giving sensor data for rendering all information
         sensor = Sensor(snapshot.data.id, snapshot.data.name, snapshot.data.description, snapshot.data.comment, snapshot.data.measurements);
         bloc.getInitialOptions(id, sensor);
         return StreamBuilder<DiagramOptions>(
@@ -67,6 +69,7 @@ class _DetailState extends State<Detail> {
           builder: (BuildContext context, AsyncSnapshot<DiagramOptions> optionsSnapshot) {
             if (!snapshot.hasData) return Center(child: Text('Keine Diagrammoptionen gefunden.'));
             options = optionsSnapshot.data;
+            //scaffold with ellipse is given back to have the same scaffold design on every screen
             return CustomScaffold(
               title: sensor.name,
               subtitle: sensor.description,
@@ -403,6 +406,7 @@ class _DetailState extends State<Detail> {
     );
   }
 
+  //collecting data from firebase backend listed by descending time
   Stream<Sensor> querySensor(String id) {
     return FirebaseFirestore.instance
         .collection('sensordata')
@@ -414,6 +418,7 @@ class _DetailState extends State<Detail> {
           .orderBy('time', descending: true)
           .get()
           .then((measurements) {
+            
         List<SensorMeasurement> ms = <SensorMeasurement>[];
         measurements.docs.forEach((element) {
           final m = SensorMeasurement.fromJSON(element.data());
@@ -424,7 +429,8 @@ class _DetailState extends State<Detail> {
     }).asStream();
   }
 
-
+//defining the color of the dot to indicate if status is good=green
+//ok=yellow or bad=pink
   Color getCo2Color() {
     final value = sensor.measurements.length > 0
         ? sensor.measurements[sensor.measurements.length - 1].co2

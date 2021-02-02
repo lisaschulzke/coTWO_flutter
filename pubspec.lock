@@ -198,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  jo_tb_fl_chart:
+    dependency: "direct main"
+    description:
+      name: jo_tb_fl_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.39"
   js:
     dependency: transitive
     description:

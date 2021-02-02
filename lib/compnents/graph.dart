@@ -14,6 +14,7 @@ class Graph extends StatefulWidget {
 class _GraphState extends State<Graph> {
   final DiagramControl control;
   _GraphState(this.control);
+  //colors of the line in the graph
   List<Color> gradientColors = [
     const Color(0xff23b6e6),
     const Color(0xff02d39a),
@@ -52,13 +53,6 @@ class _GraphState extends State<Graph> {
                 showAvg = !showAvg;
               });
             },
-            // child: Text(
-            //   'avg',
-            //   style: TextStyle(
-            //       fontSize: 12,
-            //       color:
-            //           showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
-            // ),
           ),
         ),
       ],
@@ -136,6 +130,7 @@ class _GraphState extends State<Graph> {
     );
   }
 
+  //defining y-axis labels depending on the type of information
   String _mapAxisLabels(DiagramControl control, double value) {
     if (control.type == 'CO2') {
       if (value % 500 == 0) return value.toInt().toString();
@@ -152,6 +147,7 @@ class _GraphState extends State<Graph> {
     return '';
   }
 
+  //pushing all datapoints to the matching value in a list (with x and y coordinates)
   List<FlSpot> _mapDataPointsToSpots(List<DataPoint> datapoints) {
     return datapoints
         .map((d) => FlSpot(d.time.toDouble(), d.value.toDouble()))

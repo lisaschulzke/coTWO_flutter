@@ -1,4 +1,3 @@
-import 'package:co_two/detail.dart';
 import 'package:co_two/main.dart';
 import 'package:co_two/scan.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ class CustomScaffold extends StatelessWidget {
   final List<Widget> children; // which content is displayed
   final String title;
   final String subtitle;
-  final Icon icon; //what's the name
+  final Icon icon; //what's the name decides on which Icon is illustrated and where it navigates to
 
 //constructor takes values of properties (e.g. this.title) and puts it into variable (e.g. title)
 //cunstructor only necessary if i want to give individual information by having a global component
@@ -35,12 +34,14 @@ class CustomScaffold extends StatelessWidget {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Color(0xffBFAFC3),
+      backgroundColor: Color(0xffC0C5CD),
       appBar: AppBar(
         leading: IconButton(
           icon: this.icon,
           onPressed: () {
-            if (this.icon != Icon(Icons.arrow_back)) {
+            //for better navigation, only open drawer when icon is menu icon. 
+            //otherwise just go back to home screen 
+            if (this.icon == Icon(Icons.menu)) {
               print('_______________________');
               print(this.icon);
               _scaffoldKey.currentState.openDrawer();
@@ -51,10 +52,6 @@ class CustomScaffold extends StatelessWidget {
                   context, MaterialPageRoute(builder: (context) => Home()));
             }
           },
-          // onPressed: () => (Icon(Icons.menu))
-          //     ? _scaffoldKey.currentState.openDrawer()
-          //     : Navigator.push(
-          //         context, MaterialPageRoute(builder: (context) => Home())),
           color: Colors.white,
         ),
         title: Text(
@@ -64,6 +61,7 @@ class CustomScaffold extends StatelessWidget {
         backgroundColor: Color(0xff192360),
         elevation: 0,
       ),
+      //defining content for drawer
       drawer: Drawer(
         child: Container(
           color: Color(0xff192360),
@@ -92,25 +90,18 @@ class CustomScaffold extends StatelessWidget {
                   );
                 },
               ),
-              // ListTile(
-              //   title: Text("Journal"),
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => Detail()),
-              //     );
-              //   },
-              // )
             ],
           ),
         ),
       ),
+      //body depends on individual content of the page, all saved in the stackchildren
+      //this has to be set as a property to give the body
       body: Stack(
         children: stackChildren,
       ),
     );
   }
-
+  //because the 'appbar' should look a little different to the default version, I added an ellipse here
   Widget _buildElipse(BuildContext context) {
     return Positioned(
       top: 0,

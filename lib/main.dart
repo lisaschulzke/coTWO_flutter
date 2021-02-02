@@ -134,13 +134,18 @@ class _HomeState extends State<Home> {
                 final id = snapshot.data.docs[index]['sensorId'];
                 return StreamBuilder<Sensor>(
                   stream: querySensor(id),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Sensor> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Sensor> snapshot) {
                     if (!snapshot.hasData)
-                      return Text('Keine Daten verfügbar für Sensor $id');
+                      return Container(child: Text('Keine Daten verfügbar für Sensor $id', style: TextStyle(color: Colors.white),));
                     if (snapshot.data == null)
                       return Text('Keine Daten verfügbar.');
-                    final sensor = Sensor(snapshot.data.id, snapshot.data.name, snapshot.data.description, snapshot.data.comment, snapshot.data.measurements);
+                    final sensor = Sensor(
+                        snapshot.data.id,
+                        snapshot.data.name,
+                        snapshot.data.description,
+                        snapshot.data.comment,
+                        snapshot.data.measurements);
                     return CustomCard(
                       particleCount: (sensor.measurements.length > 0
                               ? sensor
@@ -170,10 +175,10 @@ class _HomeState extends State<Home> {
         width: MediaQuery.of(context).size.width * 0.9,
         child: FlatButton(
             height: 40,
-            color: Color(0xffD925A9),
+            color: Color(0xff304C90),
             shape: RoundedRectangleBorder(
                 side: BorderSide(
-                    color: Color(0xffA62182),
+                    color: Color(0xff304C90),
                     width: 1,
                     style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(20)),
@@ -225,18 +230,23 @@ class _HomeState extends State<Home> {
         .doc('$id')
         .get()
         .then((sensor) {
-          return sensor.reference
-            .collection('measurements')
-            .orderBy('time', descending: true)
-            .get()
-            .then((measurements) {
-              List<SensorMeasurement> ms = <SensorMeasurement>[];
-              measurements.docs.forEach((element) {
-                final m = SensorMeasurement.fromJSON(element.data());
-                ms.add(m);
-              });
-              return Sensor(id, sensor.data()['name'] ?? '', sensor.data()['description'] ?? '', sensor.data()['comment'] ?? '', ms);
-            });
-        }).asStream();
+      return sensor.reference
+          .collection('measurements')
+          .orderBy('time', descending: true)
+          .get()
+          .then((measurements) {
+        List<SensorMeasurement> ms = <SensorMeasurement>[];
+        measurements.docs.forEach((element) {
+          final m = SensorMeasurement.fromJSON(element.data());
+          ms.add(m);
+        });
+        return Sensor(
+            id,
+            sensor.data()['name'] ?? '',
+            sensor.data()['description'] ?? '',
+            sensor.data()['comment'] ?? '',
+            ms);
+      });
+    }).asStream();
   }
 }
