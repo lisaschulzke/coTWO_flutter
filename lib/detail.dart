@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
 
 import 'package:co_two/compnents/graph.dart';
+import 'package:co_two/compnents/graph2.dart';
 import 'package:co_two/models/bloc.dart';
 
 import 'package:co_two/models/chart_configuration.dart';
@@ -62,12 +63,19 @@ class _DetailState extends State<Detail> {
             child: CircularProgressIndicator(),
           );
         //giving sensor data for rendering all information
-        sensor = Sensor(snapshot.data.id, snapshot.data.name, snapshot.data.description, snapshot.data.comment, snapshot.data.measurements);
+        sensor = Sensor(
+            snapshot.data.id,
+            snapshot.data.name,
+            snapshot.data.description,
+            snapshot.data.comment,
+            snapshot.data.measurements);
         bloc.getInitialOptions(id, sensor);
         return StreamBuilder<DiagramOptions>(
           stream: bloc.options,
-          builder: (BuildContext context, AsyncSnapshot<DiagramOptions> optionsSnapshot) {
-            if (!snapshot.hasData) return Center(child: Text('Keine Diagrammoptionen gefunden.'));
+          builder: (BuildContext context,
+              AsyncSnapshot<DiagramOptions> optionsSnapshot) {
+            if (!snapshot.hasData)
+              return Center(child: Text('Keine Diagrammoptionen gefunden.'));
             options = optionsSnapshot.data;
             //scaffold with ellipse is given back to have the same scaffold design on every screen
             return CustomScaffold(
@@ -91,7 +99,7 @@ class _DetailState extends State<Detail> {
                           cornerRadius: 20,
                           initialLabelIndex: _index,
                           labels: ["Heute", "Woche", "Monat"],
-                          activeBgColor: Color(0xffD925A9),
+                          activeBgColor: Color(0xff304C90),
                           inactiveBgColor: Colors.white,
                           onToggle: _toggleActiveState,
                         ),
@@ -103,295 +111,244 @@ class _DetailState extends State<Detail> {
                           child: Container(
                             child: (_index == 1 || _index == 2
                                 ? Container(
-                              height:
-                              MediaQuery.of(context).size.height * 0.75,
-                              width: 150,
-                              child: Center(
-                                child: Card(
-                                  margin:
-                                  EdgeInsets.only(left: 20, right: 20),
-                                  elevation: 0,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.circular(20)),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                          child: Image.asset(
-                                            'assets/images/data_blue.png',
-                                            height: 400,
-                                            width: 400,
-                                          )),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            left: 45, right: 45),
-                                        child: Text(
-                                          "Du hast noch nicht genügend Daten gesammelt für diese Ansicht.",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            color: Theme.of(context)
-                                                .primaryColor,
-                                          ),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.75,
+                                    width: 150,
+                                    child: Center(
+                                      child: Card(
+                                        margin: EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        elevation: 0,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                                child: Image.asset(
+                                              'assets/images/data_blue.png',
+                                              height: 400,
+                                              width: 400,
+                                            )),
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 45, right: 45),
+                                              child: Text(
+                                                "Du hast noch nicht genügend Daten gesammelt für diese Ansicht.",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              // Text(
-                              //   "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
-                              //   style: TextStyle(
-                              //       fontSize: 16,
-                              //       color: Theme.of(context).primaryColor),
-                              // ),
-                            )
+                                      ),
+                                    ),
+                                    // Text(
+                                    //   "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
+                                    //   style: TextStyle(
+                                    //       fontSize: 16,
+                                    //       color: Theme.of(context).primaryColor),
+                                    // ),
+                                  )
                                 : Center(
-                              child: Column(
-                                children: [
-                                  Card(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20)),
-                                      child: ExpansionTile(
-                                        initiallyExpanded: true,
-                                        title: Row(
-                                          children: [
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                "CO2",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                    child: Column(
+                                      children: [
+                                        Card(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: ExpansionTile(
+                                              initiallyExpanded: true,
+                                              title: Row(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 0),
+                                                    child: Text(
+                                                      "CO2",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 30),
+                                                    child: Text(
+                                                      // to string necessary because it is a text widget and it always needs to be a string
+                                                      // and int is not a string so it has to be converted to a string to make it visible in text widget
+                                                      '${sensor.measurements.length > 0 ? sensor.measurements[0].co2 : 0}',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 7, top: 5),
+                                                    child: Text(
+                                                      "ppm",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(left: 30),
-                                              child: Text(
-                                                // to string necessary because it is a text widget and it always needs to be a string
-                                                // and int is not a string so it has to be converted to a string to make it visible in text widget
-                                                '${sensor.measurements.length > 0 ? sensor.measurements[sensor.measurements.length - 1].co2 : 0}',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              leading: Icon(
+                                                Icons.circle,
+                                                color: getCo2Color(),
+                                                size: 23,
                                               ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 7, top: 5),
-                                              child: Text(
-                                                "ppm",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        leading: Icon(
-                                          Icons.circle,
-                                          color: getCo2Color(),
-                                          size: 23,
-                                        ),
-                                        children: [
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height *
-                                                0.5,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            margin:
-                                            EdgeInsets.only(right: 15),
-                                            child: Stack(
                                               children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: 20, bottom: 10, left: 8, right: 10),
-                                                  child: Graph(
-                                                      control: options
-                                                          .diagrams[0]),
-                                                ),
+                                                Graph2(
+                                                    options.diagrams[0], sensor)
                                               ],
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Card(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20)),
-                                      child: ExpansionTile(
-                                        title: Row(
-                                          children: [
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                "Temperatur",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                            )),
+                                        Card(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: ExpansionTile(
+                                              title: Row(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 0),
+                                                    child: Text(
+                                                      "Temperatur",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 30),
+                                                    child: Text(
+                                                      '${sensor.measurements.length > 0 ? sensor.measurements[0].temperature : 0}',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 7, top: 5),
+                                                    child: Text(
+                                                      "°C",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(left: 30),
-                                              child: Text(
-                                                "22,5",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              leading: Icon(
+                                                Icons.circle,
+                                                color: getTempColor(),
+                                                size: 23,
                                               ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 7, top: 5),
-                                              child: Text(
-                                                "°C",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        leading: Icon(
-                                          Icons.circle,
-                                          color: Colors.red,
-                                          size: 23,
-                                        ),
-                                        children: [
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height /
-                                                4,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            margin:
-                                            EdgeInsets.only(right: 15),
-                                            child: Stack(
                                               children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: 90, bottom: 10),
-                                                  child: Graph(
-                                                      control: options
-                                                          .diagrams[2]),
-                                                ),
+                                                Graph2(
+                                                    options.diagrams[1], sensor)
                                               ],
-                                            ),
-                                          ),
-                                        ],
-                                      )),
-                                  Card(
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(20)),
-                                      child: ExpansionTile(
-                                        title: Row(
-                                          children: [
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                "Luftfeuchtigkeit",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                            )),
+                                        Card(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: ExpansionTile(
+                                              title: Row(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 0),
+                                                    child: Text(
+                                                      "Luftfeuchtigkeit",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 30),
+                                                    child: Text(
+                                                      '${sensor.measurements.length > 0 ? sensor.measurements[0].humidity : 0}',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 7, top: 5),
+                                                    child: Text(
+                                                      "%",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            Container(
-                                              margin:
-                                              EdgeInsets.only(left: 30),
-                                              child: Text(
-                                                "53",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              leading: Icon(
+                                                Icons.circle,
+                                                color: getHumColor(),
+                                                size: 23,
                                               ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 7, top: 5),
-                                              child: Text(
-                                                "%",
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        leading: Icon(
-                                          Icons.circle,
-                                          color: Colors.red,
-                                          size: 23,
-                                        ),
-                                        children: [
-                                          Container(
-                                            height: MediaQuery.of(context)
-                                                .size
-                                                .height /
-                                                4,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            margin:
-                                            EdgeInsets.only(right: 15),
-                                            child: Stack(
                                               children: [
-                                                Container(
-                                                  margin: EdgeInsets.only(
-                                                      top: 90, bottom: 10),
-                                                  child: Graph(
-                                                      control: options
-                                                          .diagrams[2]),
-                                                ),
+                                                Graph2(
+                                                    options.diagrams[2], sensor)
                                               ],
-                                            ),
-                                          ),
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            )),
+                                            ))
+                                      ],
+                                    ),
+                                  )),
                           ),
                         ),
                       ),
@@ -418,13 +375,17 @@ class _DetailState extends State<Detail> {
           .orderBy('time', descending: true)
           .get()
           .then((measurements) {
-            
         List<SensorMeasurement> ms = <SensorMeasurement>[];
         measurements.docs.forEach((element) {
           final m = SensorMeasurement.fromJSON(element.data());
           ms.add(m);
         });
-        return Sensor(id, sensor.data()['name'] ?? '', sensor.data()['description'] ?? '', sensor.data()['comment'] ?? '', ms);
+        return Sensor(
+            id,
+            sensor.data()['name'] ?? '',
+            sensor.data()['description'] ?? '',
+            sensor.data()['comment'] ?? '',
+            ms);
       });
     }).asStream();
   }
@@ -436,7 +397,25 @@ class _DetailState extends State<Detail> {
         ? sensor.measurements[sensor.measurements.length - 1].co2
         : 0;
     return value > 1500
-        ? Colors.red
-        : (value > 900 ? Colors.yellow : Colors.green);
+        ? Color(0xffD925A9)
+        : (value > 900 ? Color(0xffEAED5C) : Color(0xff9FDE82));
+  }
+
+  Color getTempColor() {
+    final value = sensor.measurements.length > 0
+        ? sensor.measurements[sensor.measurements.length - 1].temperature
+        : 0;
+    return value > 29
+        ? Color(0xffD925A9)
+        : (value > 25 ? Color(0xffEAED5C) : Color(0xff9FDE82));
+  }
+
+  Color getHumColor() {
+    final value = sensor.measurements.length > 0
+        ? sensor.measurements[sensor.measurements.length - 1].humidity
+        : 0;
+    return value > 68
+        ? Color(0xffD925A9)
+        : (value > 60 ? Color(0xffEAED5C) : Color(0xff9FDE82));
   }
 }

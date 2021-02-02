@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:co_two/models/chart_configuration.dart';
 import 'package:flutter/material.dart';
-import 'chart_configuration.dart';
 
 class SensorMeasurement {
   int time;
@@ -13,7 +13,7 @@ class SensorMeasurement {
 
   SensorMeasurement.fromJSON(Map<String, dynamic> json)
       : time = json['time'].toDate().millisecondsSinceEpoch,
-        co2 = json['co2'] ?? 0,
+        co2 = json['co2'].toInt() ?? 0,
         temperature = json['temperature'] ?? 0,
         humidity = json['humidity'] ?? 0;
 }
@@ -25,8 +25,7 @@ class Sensor {
   String comment;
   List<SensorMeasurement> measurements;
 
-  Sensor(this.id,
-      [this.name, this.description, this.comment, this.measurements]);
+  Sensor(this.id, [this.name, this.description, this.comment, this.measurements]);
 
   Sensor.fromBarcode(this.id) {
     this.name = this.description = this.comment = '';
@@ -39,10 +38,7 @@ class Sensor {
     description = json['description'] ?? '';
     comment = json['comment'] ?? '';
     try {
-      measurements = json['measurements']
-              .map<SensorMeasurement>((m) => SensorMeasurement.fromJSON(m))
-              .toList() ??
-          <SensorMeasurement>[];
+        measurements = json['measurements'].map<SensorMeasurement>((m) => SensorMeasurement.fromJSON(m)).toList() ?? <SensorMeasurement>[];
     } on NoSuchMethodError {
       measurements = <SensorMeasurement>[];
     }
@@ -54,10 +50,19 @@ class Sensor {
     description = json['description'] ?? '';
     comment = json['comment'] ?? '';
     try {
-      measurements = json['measurements']
-              .map<SensorMeasurement>((m) => SensorMeasurement.fromJSON(m))
-              .toList() ??
-          <SensorMeasurement>[];
+      measurements = json['measurements'].map<SensorMeasurement>((m) => SensorMeasurement.fromJSON(m)).toList() ?? <SensorMeasurement>[];
+    } on NoSuchMethodError {
+      measurements = <SensorMeasurement>[];
+    }
+  }
+
+  Sensor.fromFSWithMeasurements(String id, Map<String, dynamic> json, List<SensorMeasurement> inputMeasurements) {
+    id = id;
+    name = json['name'] ?? '';
+    description = json['description'] ?? '';
+    comment = json['comment'] ?? '';
+    try {
+      measurements =  inputMeasurements.length > 0 ? inputMeasurements : <SensorMeasurement>[];
     } on NoSuchMethodError {
       measurements = <SensorMeasurement>[];
     }
@@ -72,27 +77,6 @@ class Sensor {
       'comment': comment,
       'measurements': measurements != null ? jsonEncode(measurements) : null,
     };
-  }
-
-  List<DataPoint> getDataPoints(String type, DiagramTimeInterval interval) {
-    List<SensorMeasurement> ms = measurements
-        .where((m) => m.time >= interval.from && m.time <= interval.to)
-        .toList();
-    List<DataPoint> datapoints = DataPoint.buildFixedDataPoints(interval);
-    int step = DataPoint.getStepSize(interval.size);
-    datapoints.forEach((d) {
-      List<SensorMeasurement> msInterval =
-          ms.where((m) => d.time <= m.time && m.time <= d.time + step).toList();
-      int value = 0;
-      msInterval.forEach((m) {
-        if (type == 'CO2') value += m.co2;
-        if (type == 'Temperatur') value += m.temperature;
-        if (type == 'Feuchtigkeit') value += m.humidity;
-      });
-      if (value > 0) value = value ~/ msInterval.length;
-      d.value = value;
-    });
-    return datapoints;
   }
 
   static Icon mapStatusIcon(Sensor sensor, [DiagramControl control]) {
@@ -114,9 +98,7 @@ class Sensor {
     if (control == null || control.type == 'Temperatur') {
       // Temperature
       thresholds = <int>[15, 18, 21, 24, 28];
-      value = sensor.measurements.length > 0
-          ? sensor.measurements[0].temperature
-          : 0;
+      value = sensor.measurements.length > 0 ? sensor.measurements[0].temperature : 0;
       int i = 0;
       thresholds.forEach((t) {
         if (i < 2 && value < t) max(status, status = 2 - i);
@@ -127,8 +109,7 @@ class Sensor {
     if (control == null || control.type == 'Feuchtigkeit') {
       // Humidity
       thresholds = <int>[35, 45, 55, 66, 75];
-      value =
-          sensor.measurements.length > 0 ? sensor.measurements[0].humidity : 0;
+      value = sensor.measurements.length > 0 ? sensor.measurements[0].humidity : 0;
       int i = 0;
       thresholds.forEach((t) {
         if (i < 2 && value < t) max(status, status = 2 - i);
@@ -137,8 +118,7 @@ class Sensor {
       });
     }
     if (status == 2) return Icon(Icons.error, color: Colors.red, size: 16.0);
-    if (status == 1)
-      return Icon(Icons.warning, color: Colors.yellow, size: 16.0);
+    if (status == 1) return Icon(Icons.warning, color: Colors.yellow, size: 16.0);
     return Icon(Icons.check_circle, color: Colors.green, size: 16.0);
   }
 }

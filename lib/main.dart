@@ -15,30 +15,30 @@ Future<void> main() async {
   await FirebaseAuth.instance
       .signInWithEmailAndPassword(email: 'admin@test.com', password: 'test123');
 
-  FirebaseFirestore.instance.collection('sensordata').get().then((value) => {
-        value.docs.forEach((element) {
-          print(element.data());
-        }),
-      });
+  // FirebaseFirestore.instance.collection('sensordata').get().then((value) => {
+  //       value.docs.forEach((element) {
+  //         print(element.data());
+  //       }),
+  //     });
 
-  FirebaseFirestore.instance
-      .collection('sensordata')
-      .doc('00FAA2624C0846ED')
-      .get()
-      .then((sensor) {
-    return sensor.reference
-        .collection('measurements')
-        .orderBy('time', descending: true)
-        .get()
-        .then((measurements) {
-      List<SensorMeasurement> ms = <SensorMeasurement>[];
-      measurements.docs.forEach((element) {
-        print(element);
-        final m = SensorMeasurement.fromJSON(element.data());
-        ms.add(m);
-      });
-    });
-  });
+  // FirebaseFirestore.instance
+  //     .collection('sensordata')
+  //     .doc('00FAA2624C0846ED')
+  //     .get()
+  //     .then((sensor) {
+  //   return sensor.reference
+  //       .collection('measurements')
+  //       .orderBy('time', descending: true)
+  //       .get()
+  //       .then((measurements) {
+  //     List<SensorMeasurement> ms = <SensorMeasurement>[];
+  //     measurements.docs.forEach((element) {
+  //       print(element);
+  //       final m = SensorMeasurement.fromJSON(element.data());
+  //       ms.add(m);
+  //     });
+  //   });
+  // });
 
   runApp(MyApp());
 }
