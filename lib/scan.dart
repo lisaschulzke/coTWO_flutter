@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
+import 'package:co_two/detail.dart';
+import 'package:co_two/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
@@ -42,37 +44,50 @@ neuen Raum hinzuzufügen.''',
                           width: 300.0,
                           height: 300.0,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: _scanned.isEmpty
-                                ? QrCamera(
-                                    fit: BoxFit.cover,
-                                    onError: (context, error) => Text("Error"),
-                                    qrCodeCallback: (code) async {
-                                      // if (code.contains("http://")) {
-                                      setState(() {
-                                        _scanned = code;
-                                        print('#############');
-                                        print(_scanned);
-                                        print('##############');
-                                      });
-                                      // }
-                                      if (_scanned != null) {
-                                        createSensorId(_scanned);
-                                      }
-                                      
-                                    },
-                                  )
-                                //this button is to prevent the camera from throwing an error (because once
-                                //the camera is open, the library does not shut down the camera on its own)
-                                : RaisedButton(
-                                    onPressed: () async {
-                                      print(_scanned);
-                                      //methode hinzufügen, die auf firebase den raum dem nutzer zufügt
-                                    },
-                                    child: Text(
-                                        "Get data from $_scanned and scan again..."),
-                                  ),
-                          )),
+                              borderRadius: BorderRadius.circular(16),
+                              child: _scanned.isEmpty
+                                  ? QrCamera(
+                                      fit: BoxFit.cover,
+                                      onError: (context, error) =>
+                                          Text("Error"),
+                                      qrCodeCallback: (code) async {
+                                        // if (code.contains("http://")) {
+                                        setState(() {
+                                          _scanned = code;
+                                          print('#############');
+                                          print(_scanned);
+                                          print('##############');
+                                        });
+                                        // }
+                                        if (_scanned != null) {
+                                          createSensorId(_scanned);
+                                          Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Home(),
+                                      ),
+                                    );
+                                        }
+                                      },
+                                    )
+                                  //this button is to prevent the camera from throwing an error (because once
+                                  //the camera is open, the library does not shut down the camera on its own)
+                                  // : Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) => Home(),
+                                  //     ),
+                                  //   )
+
+                              : RaisedButton(
+                                  onPressed: () async {
+                                    print(_scanned);
+                                    //methode hinzufügen, die auf firebase den raum dem nutzer zufügt
+                                  },
+                                  child: Text(
+                                      "Get data from $_scanned and scan again..."),
+                                ),
+                              )),
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 30, left: 55, right: 45),

@@ -39,6 +39,8 @@ dependencies:
   cloud_firestore:
   rxdart: 
   jo_tb_fl_chart: ^0.1.39
+  progress_indicators: ^0.1.5
+  flutter_launcher_icons: ^0.8.1
 
 
 provider: ^3.0.0
@@ -75,6 +77,7 @@ flutter:
     - assets/images/data_blue.png
     - assets/images/qr_code.png
     - assets/images/qr_code_pink.png
+    - assets/images/no_rooms.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

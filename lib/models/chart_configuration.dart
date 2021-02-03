@@ -12,7 +12,7 @@ class DiagramControl {
 class DiagramOptions {
   final String sensorId;
   int activeToggle;
-  final List<DiagramControl> diagrams;
+  List<DiagramControl> diagrams;
 
   DiagramOptions({this.sensorId, this.activeToggle, this.diagrams});
 

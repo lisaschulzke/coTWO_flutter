@@ -6,6 +6,7 @@ import 'package:co_two/scan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -120,8 +121,33 @@ class _HomeState extends State<Home> {
               .orderBy('createdAt', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) return Text('Keine Daten verfügbar.');
-            if (snapshot.data.size == 0) return Text('Liste ist leer');
+            if (!snapshot.hasData)
+              return JumpingDotsProgressIndicator(
+                fontSize: 20.0,
+              );
+            if (snapshot.data.size == 0)
+              return Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white),
+                  margin: EdgeInsets.only(left: 10, right: 10, top: 35),
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 100),
+                  height: 150,
+                  width: 300,
+                  child: Column(children: [
+                    Text(
+                      'Du hast noch keine Räume gescannt.',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.w800),
+                    ),
+                    Container(height: 20,),
+                    Image.asset('assets/images/no_rooms.png'),
+                    Container(height: 20,),
+                    Text(
+                      'Tippe auf den Button KUB scannen um einen Raum hinzuzufügen.',
+                      style: TextStyle(fontWeight: FontWeight.w800,), textAlign: TextAlign.center,
+                    )
+                  ]));
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -137,7 +163,11 @@ class _HomeState extends State<Home> {
                   builder:
                       (BuildContext context, AsyncSnapshot<Sensor> snapshot) {
                     if (!snapshot.hasData)
-                      return Container(child: Text('Keine Daten verfügbar für Sensor $id', style: TextStyle(color: Colors.white),));
+                      return Container(
+                          child: Text(
+                        'Keine Daten verfügbar für Sensor $id',
+                        style: TextStyle(color: Colors.white),
+                      ));
                     if (snapshot.data == null)
                       return Text('Keine Daten verfügbar.');
                     final sensor = Sensor(
