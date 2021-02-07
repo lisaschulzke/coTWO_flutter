@@ -15,7 +15,7 @@ class SensorMeasurement {
       : time = json['time'].toDate().millisecondsSinceEpoch,
         co2 = json['co2'].toInt() ?? 0,
         temperature = json['temperature'] ?? 0,
-        humidity = json['humidity'] ?? 0;
+        humidity = json['humidity'].toInt() ?? 0;
 }
 
 class Sensor {

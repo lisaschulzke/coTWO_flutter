@@ -126,28 +126,35 @@ class _HomeState extends State<Home> {
                 fontSize: 20.0,
               );
             if (snapshot.data.size == 0)
-              return Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white),
-                  margin: EdgeInsets.only(left: 10, right: 10, top: 35),
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 100),
-                  height: 150,
-                  width: 300,
-                  child: Column(children: [
-                    Text(
-                      'Du hast noch keine Räume gescannt.',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.w800),
+            return Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white),
+                margin: EdgeInsets.only(left: 10, right: 10, top: 35),
+                padding: EdgeInsets.only(left: 20, right: 20, top: 100),
+                height: 150,
+                width: 300,
+                child: Column(children: [
+                  Text(
+                    'Du hast noch keine Räume gescannt.',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w800),
+                  ),
+                  Container(
+                    height: 20,
+                  ),
+                  Image.asset('assets/images/no_rooms.png'),
+                  Container(
+                    height: 20,
+                  ),
+                  Text(
+                    'Tippe auf den Button KUB scannen um einen Raum hinzuzufügen.',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
                     ),
-                    Container(height: 20,),
-                    Image.asset('assets/images/no_rooms.png'),
-                    Container(height: 20,),
-                    Text(
-                      'Tippe auf den Button KUB scannen um einen Raum hinzuzufügen.',
-                      style: TextStyle(fontWeight: FontWeight.w800,), textAlign: TextAlign.center,
-                    )
-                  ]));
+                    textAlign: TextAlign.center,
+                  )
+                ]));
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
