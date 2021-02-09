@@ -1,6 +1,14 @@
 # co_two
 
+## Allgemeine Informationen
+
 Eine Flutter-App, die zur Messung und Visualisierung von CO2-, Temperatur- und Feuchtigkeitssensordaten dient. 
+
+Der aktuelle Frontend-Code befindet sich auf dem Branch 'firebase'.
+
+Der zugehörige Backend-Code liegt in diesem Repo: https://github.com/lisaschulzke/coTWO_backend
+
+Der Frontend-Code ohne Firebase (100% meine alleinige Arbeit) befindet sich auf diesem Repo: https://github.com/lisaschulzke/coTwo-local
 
 
 ## Initialisieren eines neuen Flutter Projekts
@@ -286,4 +294,6 @@ Später, als wir unser Frontend auf die Datenabfrage aus Firebase umstellten, is
 
 
 
-## 
+## Detailscreen - Darstellen der Sensordaten in einem Graph
+
+
