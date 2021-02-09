@@ -157,7 +157,71 @@ Die Custom Card ist die einzelne Kachel in der Raumübersicht des GridBuilders. 
 
 Um mehr Dramaturgie zu erzeugen und einen Wow-Effekt in der App zu bieten, entschieden wir uns für eine dynamische Darstellung der Bubbles. Dies setzten wir im Code mithilfe der Bibliothek Animated Background um, in der wir dann verschiedene Properties festlegen konnten wie beispielsweise wie viele Bubbles in der Kachel schwimmen sollen, wie schnell und mit welcher Transparenz.
 
+
+
+
 ## Scanpage
+
+Für die Scanpage nutzen wir eine Bibliothek mit einem QR-Code-Scanner, den wir im Code dann noch einbinden mussten.
+
+```
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: _scanned.isEmpty
+                                  ? QrCamera(
+                                      fit: BoxFit.cover,
+                                      onError: (context, error) =>
+                                          Text("Error"),
+                                      qrCodeCallback: (code) async {
+                                        setState(() {
+                                          _scanned = code;
+                                        });
+                                        if (_scanned != null) {
+                                          createSensorId(_scanned);
+                                          Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Home(),
+                                      ),
+                                    );
+                                        }
+                                      },
+                                    )
+                                    
+                              : RaisedButton(
+                                  onPressed: () async {
+                                    print(_scanned);
+                                  },
+                                  child: Text(
+                                      "Get data from $_scanned and scan again..."),
+                                ),
+                              )
+```
+Das QR-Code Widget mussten wir dann noch mit dem ClipRRect Widget wrapen, um die Ecken des Scanners abrunden zu können, da dies durch keine Property des Scanners editierbar ist. Die Logik dahinter ist relativ simpel, da sich die Kamera nur öffnen soll, wenn der Array mit den zuletzt gescannten Räumen (also nicht mit den Räumen generell, sondern nur der Array der aktuell gescannten Räume!) leer ist. So vermeiden wir einen Fehler, der die Bibliothek nicht wirklich auffangen kann und somit einen Fehler werfen würde. Im nächsten Schritt wird die Kamera geöffnet (bzw. diese ist bereits beim Aufrufen der Seite geöffnet). Wenn man jetzt einen QR-Code scannt, werden die Daten in einen Array gespeichert und von dort dem neuen Array zugewiesen. 
+
+```           qrCodeCallback: (code) async {
+                                setState(() {
+                                    _scanned = code;
+                                });
+```
+Diese Funktion setzt einen State, indem der ```_scanned```-Array befüllt wird. 
+
+```
+if (_scanned != null) {
+                                          createSensorId(_scanned);
+                                          Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Home(),
+                                      ),
+                                    );
+                                        }
+                                      },
+```
+Der zweite Teil der Funktion kümmert sich darum, eine neue Sensor ID zu erstellen, was letztlich zum Anlegen eines neuen Raums führt. Wenn dieser neu angelegt wurde, soll zurück zum Home-Screen navigiert werden, um einen überblick über die gescannten Räume zu erhalten.
+Der RaisedButton aus dem Code-Ausschnitt oben wurde hauptsächlich zum Debuggen genutzt. Dadurch war es zu Beginn einfacher, einem Abstürzen des QR-Code-Scanners entgegenzuwirken, da dieser teilweise Fehler wirft, weil die Kamera im Hintergrund immernoch geöffnet war. Durch das Umwandeln der Kamera in den Button wird dies verhindert.
+
+
 
 ## Statemanagement und Mockdaten
 
