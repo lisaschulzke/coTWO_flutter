@@ -71,6 +71,86 @@ Die Besonderheit der erweiterten App-Bar ist die Ellipse unterhalb der eigentlic
 
 ## Aufbau der Raumübersicht
 
+Für die Ansicht der Räume auf dem Homescreen habenw wir jeweils verschiedene Kacheln. Diese sind in einem Grid angelegt, was es einfacher und dynamischer macht, Räume hinzuzufügen ohne großen Code-Aufwand bzgl. des Layouts. Dies machen wir durch einen Gridview builder, der das Grid aufbaut. Bereits zuvor wurden die Daten von Firebase geholt und der Klasse Sensor übergeben. So können später in der custom card die Sensordaten benutzt werden, um bspw. den particle count zu bestimmen.
+
+Das Objekt Sensor verfügt, wie unten zu sehen, über mehrere Eigenschaften, wie beispielsweise ```snapshot.data.name``` um in diesem Fall den Namen des Raums zu übergeben.
+
+```return GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
+              ),
+              itemCount: snapshot.data.size,
+              padding: EdgeInsets.all(10),
+              itemBuilder: (BuildContext context, int index) {
+                final id = snapshot.data.docs[index]['sensorId'];
+                return StreamBuilder<Sensor>(
+                  stream: querySensor(id),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Sensor> snapshot) {
+                    if (!snapshot.hasData)
+                      return Container(
+                          child: Text(
+                        'Keine Daten verfügbar für Sensor $id',
+                        style: TextStyle(color: Colors.white),
+                      ));
+                    if (snapshot.data == null)
+                      return Text('Keine Daten verfügbar.');
+                    final sensor = Sensor(
+                        snapshot.data.id,
+                        snapshot.data.name,
+                        snapshot.data.description,
+                        snapshot.data.comment,
+                        snapshot.data.measurements);
+                    return CustomCard(
+                      particleCount: (sensor.measurements.length > 0
+                              ? sensor
+                                  .measurements[sensor.measurements.length - 1]
+                                  .co2
+                              : 0) *
+                          0.25.round(),
+                      room: sensor,
+                      color: Colors.greenAccent,
+                    );
+                  },
+                );
+              },
+            );
+```
+
+Um später dann die Card dynamisch an den jeweiligen Raum und die dazugehörigen Sensordaten anzupassen, übergeben wir die Daten im Code für den jeweiligen, gescannten Raum. Hier ein Beispiel zum Anpassen der Farbe des Statuskreises. Hier steckt die Logik drin, wann er bei welchen Werten die verschiedenen Farben annimmt.
+
+```
+decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: (((room.measurements.length > 0
+                                            ? room
+                                                .measurements[
+                                                    room.measurements.length -
+                                                        1]
+                                                .co2
+                                            : 0) <=
+                                        800)
+                                    ? Colors.green
+                                    : ((room.measurements.length > 0
+                                                ? room
+                                                    .measurements[room
+                                                            .measurements
+                                                            .length -
+                                                        1]
+                                                    .co2
+                                                : 0) >
+                                            1200)
+                                        ? Colors.yellow
+                                        : Color(0xffD925A9)),
+                              ),
+```
+
+
+### Custom Card
+
+
 ## Animated Background
 
 ## Scanpage
