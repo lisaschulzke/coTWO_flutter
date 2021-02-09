@@ -280,9 +280,10 @@ Hierfür nutzten wir einen seperaten Ordner im Projekt, in dem wir verschiedene 
 Wie zu sehen, war in dem Objekt zunächst title und subtitle sowie ein Array day, der die einzelnen Messungen als Objekte beinhaltete.
 Um nun trotzdem die Funktion mit dem scannen zu testen, googelten wir eine einfache Methode, einen Server local laufen zu lassen mit unseren Mockdaten. Dabei sind wir auf die Möglichkeit gestoßen, den Python-Befehl ```python -m SimpleHTTPServer``` in der Konsole einzugeben, der einen Server auf dem eigenen Rechner aufsetzt. Nun bekamen wir über die Konsole die Information, auf welchem Port die Daten erreichbar sind und steckten diese URL dann in einen QR-Code-Generator im Internet. Der erzeugte dann den passenden QR-Code zur URL und wir konnten den Scanner testen.
 
-Später, als wir unser Frontend auf die Datenabfrage aus Firebase umstellten, ist der Inhalt des QR-Codes die ID geworden, die erzeugt wird, wenn ein Nutzer einen Raum scannt, also wenn dieser sich quasi subscribed. Der Einfachheit halber (Nutzerverwaltung wäre in dieser kurzen Zeit bisschen komplex) haben wir also nur einen Nutzer erstellt, mit dem durch die ID unserer Messstation ein Match entstand und dies in Firebase unter der Collection sensors_users angelegt wurde.
+Später, als wir unser Frontend auf die Datenabfrage aus Firebase umstellten, ist der Inhalt des QR-Codes die ID (Sensor ID) geworden, die erzeugt wird, wenn ein Nutzer einen Raum scannt, also wenn dieser sich quasi subscribed. Der Einfachheit halber (Nutzerverwaltung wäre in dieser kurzen Zeit bisschen komplex) haben wir also nur einen Nutzer erstellt, mit dem durch die ID unserer Messstation ein Match entstand und dies in Firebase unter der Collection sensors_users angelegt wurde.
 
 ![Alt-Text](/Datenbankstruktur_sensors_users.png)
+
 
 
 ## 
