@@ -225,4 +225,63 @@ Der RaisedButton aus dem Code-Ausschnitt oben wurde hauptsächlich zum Debuggen 
 
 ## Statemanagement und Mockdaten
 
+Zu Beginn haben wir zunächst nur mit Mockdaten gearbeitet, um uns in Ruhe auf Layout und die tatsächlichen Funktionen konzentrieren zu können.
+Hierfür nutzten wir einen seperaten Ordner im Projekt, in dem wir verschiedene Räume als Dateien anlegten. Diese hatten die Form eines JSON-Objekts, mit den einzelnen Messungen und Timestamps als einzelnen Objekten, wie hier zu sehen.
+
+```
+{
+    "title": "H 2.17",
+    "subtitle": "Klasse 3b",
+
+    "day": [
+        {
+            "timestamp": 1610565917,
+            "ppm": 917
+        },
+        {
+            "timestamp": 1610565317,
+            "ppm": 632
+        },
+        {
+            "timestamp": 1610564717,
+            "ppm": 957
+        },
+        {
+            "timestamp": 1610564117,
+            "ppm": 391
+        },
+        {
+            "timestamp": 1610563517,
+            "ppm": 462
+        },
+        {
+            "timestamp": 1610562917,
+            "ppm": 923
+        },
+        {
+            "timestamp": 1610562317,
+            "ppm": 789
+        },
+        {
+            "timestamp": 1610561717,
+            "ppm": 1238
+        },
+        {
+            "timestamp": 1610561117,
+            "ppm": 1270
+        },
+        {
+            "timestamp": 1610560517,
+            "ppm": 430
+        }
+    ]
+}
+```
+Wie zu sehen, war in dem Objekt zunächst title und subtitle sowie ein Array day, der die einzelnen Messungen als Objekte beinhaltete.
+Um nun trotzdem die Funktion mit dem scannen zu testen, googelten wir eine einfache Methode, einen Server local laufen zu lassen mit unseren Mockdaten. Dabei sind wir auf die Möglichkeit gestoßen, den Python-Befehl ```python -m SimpleHTTPServer``` in der Konsole einzugeben, der einen Server auf dem eigenen Rechner aufsetzt. Nun bekamen wir über die Konsole die Information, auf welchem Port die Daten erreichbar sind und steckten diese URL dann in einen QR-Code-Generator im Internet. Der erzeugte dann den passenden QR-Code zur URL und wir konnten den Scanner testen.
+
+Später, als wir unser Frontend auf die Datenabfrage aus Firebase umstellten, ist der Inhalt des QR-Codes die ID geworden, die erzeugt wird, wenn ein Nutzer einen Raum scannt, also wenn dieser sich quasi subscribed. Der Einfachheit halber (Nutzerverwaltung wäre in dieser kurzen Zeit bisschen komplex) haben wir also nur einen Nutzer erstellt, mit dem durch die ID unserer Messstation ein Match entstand und dies in Firebase unter der Collection sensors_users angelegt wurde.
+
+
+
 ## 
