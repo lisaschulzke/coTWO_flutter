@@ -150,8 +150,12 @@ decoration: BoxDecoration(
 
 #### Custom Card
 
+Die Custom Card ist die einzelne Kachel in der Raumübersicht des GridBuilders. Diese Klasse haben wir wieder ausgelagert, da wir sie durch verschiedene Properties verändern wollen, beispielsweise wieder durch den Raumnamen oder auch den particle count. In der Kachel an sich visualisieren wir den Status der Luftqualität durch die Anzahl der Bubbles, die sich in der Kachel bewegen.  Zusätzlich dazu hat die Kachel eine kleine description-Box, in der Name und Bezeichnung platziert sind. Außerdem findet sich dort auch ein Punkt, der sich je nach Status grün, gelb oder magenta einfärbt und somit eine Art Ampel abbildet.
 
-## Animated Background
+
+#### Animated Background
+
+Um mehr Dramaturgie zu erzeugen und einen Wow-Effekt in der App zu bieten, entschieden wir uns für eine dynamische Darstellung der Bubbles. Dies setzten wir im Code mithilfe der Bibliothek Animated Background um, in der wir dann verschiedene Properties festlegen konnten wie beispielsweise wie viele Bubbles in der Kachel schwimmen sollen, wie schnell und mit welcher Transparenz.
 
 ## Scanpage
 
