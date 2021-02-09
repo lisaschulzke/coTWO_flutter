@@ -282,6 +282,7 @@ Um nun trotzdem die Funktion mit dem scannen zu testen, googelten wir eine einfa
 
 Später, als wir unser Frontend auf die Datenabfrage aus Firebase umstellten, ist der Inhalt des QR-Codes die ID geworden, die erzeugt wird, wenn ein Nutzer einen Raum scannt, also wenn dieser sich quasi subscribed. Der Einfachheit halber (Nutzerverwaltung wäre in dieser kurzen Zeit bisschen komplex) haben wir also nur einen Nutzer erstellt, mit dem durch die ID unserer Messstation ein Match entstand und dies in Firebase unter der Collection sensors_users angelegt wurde.
 
+![Alt-Text](/Datenbankstruktur_sensors_users.png)
 
 
 ## 
