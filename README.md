@@ -15,7 +15,7 @@ Der Frontend-Code ohne Firebase (100% meine alleinige Arbeit) befindet sich auf 
 ## Nutzerführung und Stack
 Die Nutzerführung durch unsere App ist im Prinzip ganz einfach. Der Nutzer öffnet die App, sieht das Dashboard, tippt auf den Scan-Button, scannt einen QR-Code, wird zurück auf den Homescreen navigiert und kann sich dann die Raumdetails durch klicken auf die jeweilige Kachel ansehen.
 
-![Alt-Text](/stack.png)
+![Intraktionen im Stack](/stack_interaktion.png)
 
 
 
