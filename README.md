@@ -11,6 +11,21 @@ Der zugehörige Backend-Code liegt in diesem Repo: https://github.com/lisaschulz
 Der Frontend-Code ohne Firebase (100% meine alleinige Arbeit) befindet sich auf diesem Repo: https://github.com/lisaschulzke/coTwo-local
 
 
+
+## Nutzerführung und Stack
+Die Nutzerführung durch unsere App ist im Prinzip ganz einfach. Der Nutzer öffnet die App, sieht das Dashboard, tippt auf den Scan-Button, scannt einen QR-Code, wird zurück auf den Homescreen navigiert und kann sich dann die Raumdetails durch klicken auf die jeweilige Kachel ansehen.
+
+![Alt-Text](/stack_interaktionen.png)
+
+
+
+## Vue vs. Flutter
+
+Zu Beginn unserer Umsetzung mit Code haben wir mit Vue.js gearbeitet. Dies war jedoch etwas schwieriger mit der Integration von hardwarenahen Einbindungen wie einem QR-Code-Scanner. Zusätzlich kam hinzu, dass wir eine native App erstellen wollten, die dem Nutzer die bestmöglichste UX bieten kann. 
+Da wir Flutter schon von anderen Entwicklern kannten, war das für uns die beste Lösung.
+
+
+
 ## Initialisieren eines neuen Flutter Projekts
 
 Für den Homescreen wurde zunächst eine eigene Klasse angelegt, auf die später durch Navigieren zugegriffen werden kann.
@@ -31,6 +46,8 @@ Für den Homescreen wurde zunächst eine eigene Klasse angelegt, auf die später
   ```  
   
  Wie im Code-Beispiel zu sehen, wird zu beginn jeder Klasse der Custom Scaffold aufgerufen, der für die erweiterte App-Bar zuständig ist. Mit der Klasse ```CustomScaffold```müssen auch immer die jeweiligen Parameter ```title```, ```subtitle``` und ```icon``` übergeben werden, sowie auch die children, das den eigentlichen body des Widgets wiedergibt.
+
+
 
 ## Navigation und Routing
 
@@ -401,4 +418,5 @@ Color getTempColor() {
 
 In flutter muss der return Type jeweils schon im Kopf der Methode festgelegt werden. In diesem Fall steht deshalb auch dort der Typ ```Color```.
 Die Methode besteht eigentlich aus einem Ternary Operator, der den return value dazu benutzt, einen weiteren Ternary Operator auszuführen. Letztendlich ist das vergleichbar zu einer ```if(){} else if(){}else{}```, nur mit weniger Code und einfacher. ;)
+Wie hier exemplarisch an der Temperatur gezeigt, existeren diese Methoden auch noch für CO2 und für Luftfeuchtigkeit.
 
