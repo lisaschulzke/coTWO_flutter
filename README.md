@@ -296,4 +296,109 @@ Später, als wir unser Frontend auf die Datenabfrage aus Firebase umstellten, is
 
 ## Detailscreen - Darstellen der Sensordaten in einem Graph
 
+Der Detailscreen stellte uns vor eine große Herausforderung: die Daten in einem Graph visualisieren und dabei dem Nutzer ermöglichen, die Daten durch swipen zu 'blättern'. Die Bibliothek, die wir für den Graph nutzten (Fl Chart) sieht zwar gut aus, bietet aber nur wenig Konfigurationsspielraum was zusätzliche Features betrifft. Da dieser Graph jedoch farblich und von der Form am besten in unser Design gepasst hat, hielten wir an diesem Chart auch weiterhin fest. Glücklicherweise, nach langem Suchen in den Tiefen des Internets haben wir eine Bibliothek gefunden, die das swipen des Charts ermöglicht. 
+So gelang es uns mithilfe des folgenden Codes den Graph mit swipe-Möglichkeit darzustellen.
+
+```
+Widget build(BuildContext context) {
+    return JOTimeBasedSwipingLineChart(
+      controller: control.controller, // get time and relevant value from ALL your data
+      swapAnimationDuration: const Duration(milliseconds: 250),
+      lineColors: [Color(0xff304C90)],
+      belowChartColors: [Color(0xff304C90).withOpacity(0.3)],
+      backgroundColor: Colors.white,
+      axisColor: Colors.black,
+      xAxisTextStyle: TextStyle(color: Color(0xff677792), fontWeight: FontWeight.bold, fontSize: 9.0),
+      yAxisTextStyle: TextStyle(color: Color(0xff677792), fontWeight: FontWeight.bold, fontSize: 12.0),
+      yAxisLabelStepSize: control.type == 'CO2' ? 500.0 : control.type == 'Temperatur' ? 5.0 : 10.0,
+      showLegend: true, // should display a legend (interval from / to within the diagram
+      legendTextStyle: TextStyle(color: Color(0xff677792), fontSize: 10, fontWeight: FontWeight.bold),
+    );
+  }
+```
+Der Controller stellt hierbei die Property dar, in der die Daten für den Graph gespeichert werden, die später für die Anzeige relevant sind.
+
+Für die verschiedenen Cards nutzten wir jeweils das Widget ```Card``` und verschiedene Container um die Inhalte innnerhalb der Card richtig auszurichten.
+
+
+```
+                                        Card(
+                                            elevation: 0,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: ExpansionTile(
+                                              title: Row(
+                                                children: [
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 0),
+                                                    child: Text(
+                                                      "Temperatur",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 30),
+                                                    child: Text(
+                                                      '${sensor.measurements.length > 0 ? sensor.measurements[0].temperature : 0}',
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 28,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 7, top: 5),
+                                                    child: Text(
+                                                      "°C",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              leading: Icon(
+                                                Icons.circle,
+                                                color: getTempColor(),
+                                                size: 23,
+                                              ),
+                                              children: [
+                                                Graph2(
+                                                    options.diagrams[1], sensor)
+                                              ],
+                                            )),
+```
+
+Um die richtige Farbe für die einzelnen Kategorien (CO2, Temperatur und Luftfeuchtigkeit) anzeigen zu können, wäre ein Ternary Operator in jedem dieser Cards etwas zu komplex geworden. Darum legte ich eine neue Methode für die jeweilige Einheit an und rufe sie dann über die ```color:```property auf. 
+
+```
+Color getTempColor() {
+    final value = sensor.measurements.length > 0
+        ? sensor.measurements[sensor.measurements.length - 1].temperature
+        : 0;
+    return value > 29
+        ? Color(0xffD925A9)
+        : (value > 25 ? Color(0xffEAED5C) : Color(0xff9FDE82));
+  }
+```
+
+In flutter muss der return Type jeweils schon im Kopf der Methode festgelegt werden. In diesem Fall steht deshalb auch dort der Typ ```Color```.
+Die Methode besteht eigentlich aus einem Ternary Operator, der den return value dazu benutzt, einen weiteren Ternary Operator auszuführen. Letztendlich ist das vergleichbar zu einer ```if(){} else if(){}else{}```, nur mit weniger Code und einfacher. ;)
 
