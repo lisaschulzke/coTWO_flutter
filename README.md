@@ -8,6 +8,8 @@ Der aktuelle Frontend-Code befindet sich auf dem Branch 'firebase'.
 
 Der zugehörige Backend-Code liegt in diesem Repo: https://github.com/lisaschulzke/coTWO_backend
 
+Die restlichen Infos aus dem HfG Portfolio: https://ausstellung.hfg-gmuend.de/semesters/w-2021/projects/kub?token=6ac1d239dc68fcef1e5d33aa19c0d8b98bdaaf20
+
 Der Frontend-Code ohne Firebase (100% meine alleinige Arbeit) befindet sich auf diesem Repo: https://github.com/lisaschulzke/coTwo-local
 
 
