@@ -78,14 +78,12 @@ class _CustomCardState extends State<CustomCard> with TickerProviderStateMixin {
                 children: [
                   Stack(children: [
                     Positioned(
-                      // top: 20,
                       child: Container(
                           child: Row(children: [
                             Container(
                               margin: EdgeInsets.only(right: 10.0),
                               height: 17,
                               width: 17,
-                              //TODO: make color dynamic with ppm value
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: (((room.measurements.length > 0

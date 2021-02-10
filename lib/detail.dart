@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
 
-import 'package:co_two/compnents/graph.dart';
 import 'package:co_two/compnents/graph2.dart';
 import 'package:co_two/models/bloc.dart';
 
@@ -147,12 +146,6 @@ class _DetailState extends State<Detail> {
                                         ),
                                       ),
                                     ),
-                                    // Text(
-                                    //   "Noch nicht genug Daten gesammelt für diese Ansicht ;)",
-                                    //   style: TextStyle(
-                                    //       fontSize: 16,
-                                    //       color: Theme.of(context).primaryColor),
-                                    // ),
                                   )
                                 : Center(
                                     child: Column(
