@@ -1,8 +1,10 @@
 import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:co_two/compnents/custom_scaffold.dart';
+import 'package:co_two/detail.dart';
+import 'package:co_two/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +19,8 @@ class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.only(right: 20),
       child: CustomScaffold(
+        icon: Icon(Icons.arrow_back),
         title: "KUB scannen",
         subtitle: '''Scanne einen QR-Code um einen 
 neuen Raum hinzuzufügen.''',
@@ -42,39 +44,50 @@ neuen Raum hinzuzufügen.''',
                           width: 300.0,
                           height: 300.0,
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(16),
-                            child: _scanned.isEmpty
-                                ? QrCamera(
-                                    fit: BoxFit.cover,
-                                    onError: (context, error) => Text("Error"),
-                                    qrCodeCallback: (code) async {
-                                      if (code.contains("http://")) {
+                              borderRadius: BorderRadius.circular(16),
+                              child: _scanned.isEmpty
+                                  ? QrCamera(
+                                      fit: BoxFit.cover,
+                                      onError: (context, error) =>
+                                          Text("Error"),
+                                      qrCodeCallback: (code) async {
+                                        // if (code.contains("http://")) {
                                         setState(() {
                                           _scanned = code;
+                                          print('#############');
+                                          print(_scanned);
+                                          print('##############');
                                         });
-                                      }
-                                    },
-                                  )
-                                : RaisedButton(
-                                    onPressed: () async {
-                                      print(_scanned);
-                                      String response =
-                                          await http.read(_scanned);
-                                      if (response.isNotEmpty) {
-                                        // response JSON decode, dann mit methode aus statecontrol dem provider übergeben
-                                        var newRoom = json.decode(response);
-                                        // Provider.of<StateControl>(context,
-                                        //         listen: false)
-                                        //     .addRoom(newRoom);
-                                        setState(() {
-                                          _data = response;
-                                        });
-                                      }
-                                    },
-                                    child: Text(
-                                        "Get data from $_scanned and scan again..."),
-                                  ),
-                          )),
+                                        // }
+                                        if (_scanned != null) {
+                                          createSensorId(_scanned);
+                                          Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Home(),
+                                      ),
+                                    );
+                                        }
+                                      },
+                                    )
+                                  //this button is to prevent the camera from throwing an error (because once
+                                  //the camera is open, the library does not shut down the camera on its own)
+                                  // : Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //       builder: (context) => Home(),
+                                  //     ),
+                                  //   )
+
+                              : RaisedButton(
+                                  onPressed: () async {
+                                    print(_scanned);
+                                    //methode hinzufügen, die auf firebase den raum dem nutzer zufügt
+                                  },
+                                  child: Text(
+                                      "Get data from $_scanned and scan again..."),
+                                ),
+                              )),
                     ),
                     Container(
                       padding: EdgeInsets.only(top: 30, left: 55, right: 45),
@@ -105,12 +118,45 @@ neuen Raum hinzuzufügen.''',
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(32),
               child: Center(
-                child: _data == 0 ? Text("Scan erfolgreich") : Text(" "),
+                child: Text(_data),
               ),
             ),
           )
         ],
       ),
     );
+  }
+
+  Future<void> createSensorId(String sensorId) async {
+    final createdAt = Timestamp.fromMillisecondsSinceEpoch(
+        DateTime.now().millisecondsSinceEpoch);
+    return FirebaseFirestore.instance
+        .collection('sensors_users')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+        .where('sensorId', isEqualTo: sensorId)
+        .limit(1)
+        .get()
+        .then((value) async {
+      if (value.size == 0) {
+        final ref =
+            await FirebaseFirestore.instance.collection('sensors_users').add({
+          'userId': FirebaseAuth.instance.currentUser.uid,
+          'sensorId': sensorId,
+          'createdAt': createdAt
+        });
+        return ref;
+      } else {
+        // update createdAt if sensor is scanned again to get it in top position.
+        //ersetzt neuen wert durch created at
+        final ref = value.docs.first.reference;
+        final batch = FirebaseFirestore.instance.batch();
+        batch.set(ref, {
+          'userId': FirebaseAuth.instance.currentUser.uid,
+          'sensorId': sensorId,
+          'createdAt': createdAt
+        });
+        return batch.commit();
+      }
+    });
   }
 }

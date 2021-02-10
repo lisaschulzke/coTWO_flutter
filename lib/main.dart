@@ -6,6 +6,7 @@ import 'package:co_two/scan.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,30 +16,30 @@ Future<void> main() async {
   await FirebaseAuth.instance
       .signInWithEmailAndPassword(email: 'admin@test.com', password: 'test123');
 
-  FirebaseFirestore.instance.collection('sensordata').get().then((value) => {
-        value.docs.forEach((element) {
-          print(element.data());
-        }),
-      });
+  // FirebaseFirestore.instance.collection('sensordata').get().then((value) => {
+  //       value.docs.forEach((element) {
+  //         print(element.data());
+  //       }),
+  //     });
 
-  FirebaseFirestore.instance
-      .collection('sensordata')
-      .doc('00FAA2624C0846ED')
-      .get()
-      .then((sensor) {
-    return sensor.reference
-        .collection('measurements')
-        .orderBy('time', descending: true)
-        .get()
-        .then((measurements) {
-      List<SensorMeasurement> ms = <SensorMeasurement>[];
-      measurements.docs.forEach((element) {
-        print(element);
-        final m = SensorMeasurement.fromJSON(element.data());
-        ms.add(m);
-      });
-    });
-  });
+  // FirebaseFirestore.instance
+  //     .collection('sensordata')
+  //     .doc('00FAA2624C0846ED')
+  //     .get()
+  //     .then((sensor) {
+  //   return sensor.reference
+  //       .collection('measurements')
+  //       .orderBy('time', descending: true)
+  //       .get()
+  //       .then((measurements) {
+  //     List<SensorMeasurement> ms = <SensorMeasurement>[];
+  //     measurements.docs.forEach((element) {
+  //       print(element);
+  //       final m = SensorMeasurement.fromJSON(element.data());
+  //       ms.add(m);
+  //     });
+  //   });
+  // });
 
   runApp(MyApp());
 }
@@ -95,6 +96,7 @@ class _HomeState extends State<Home> {
     return CustomScaffold(
       title: "Hallo",
       subtitle: " ",
+      icon: Icon(Icons.menu),
       children: [
         _buildGridView(),
         _buildScanButton(),
@@ -115,11 +117,44 @@ class _HomeState extends State<Home> {
           stream: FirebaseFirestore.instance
               .collection('sensors_users')
               .where('userId', isEqualTo: FirebaseAuth.instance.currentUser.uid)
+              // .where('sensors_users', isEqualTo: sensors_users)
               .orderBy('createdAt', descending: true)
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) return Text('Keine Daten verfügbar.');
-            if (snapshot.data.size == 0) return Text('Liste ist leer');
+            if (!snapshot.hasData)
+              return JumpingDotsProgressIndicator(
+                fontSize: 20.0,
+              );
+            if (snapshot.data.size == 0)
+            return Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white),
+                margin: EdgeInsets.only(left: 10, right: 10, top: 35),
+                padding: EdgeInsets.only(left: 20, right: 20, top: 100),
+                height: 150,
+                width: 300,
+                child: Column(children: [
+                  Text(
+                    'Du hast noch keine Räume gescannt.',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w800),
+                  ),
+                  Container(
+                    height: 20,
+                  ),
+                  Image.asset('assets/images/no_rooms.png'),
+                  Container(
+                    height: 20,
+                  ),
+                  Text(
+                    'Tippe auf den Button KUB scannen um einen Raum hinzuzufügen.',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                    ),
+                    textAlign: TextAlign.center,
+                  )
+                ]));
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -132,13 +167,22 @@ class _HomeState extends State<Home> {
                 final id = snapshot.data.docs[index]['sensorId'];
                 return StreamBuilder<Sensor>(
                   stream: querySensor(id),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<Sensor> snapshot) {
+                  builder:
+                      (BuildContext context, AsyncSnapshot<Sensor> snapshot) {
                     if (!snapshot.hasData)
-                      return Text('Keine Daten verfügbar für Sensor $id');
+                      return Container(
+                          child: Text(
+                        'Keine Daten verfügbar für Sensor $id',
+                        style: TextStyle(color: Colors.white),
+                      ));
                     if (snapshot.data == null)
                       return Text('Keine Daten verfügbar.');
-                    final sensor = Sensor(snapshot.data.id, snapshot.data.name, snapshot.data.description, snapshot.data.comment, snapshot.data.measurements);
+                    final sensor = Sensor(
+                        snapshot.data.id,
+                        snapshot.data.name,
+                        snapshot.data.description,
+                        snapshot.data.comment,
+                        snapshot.data.measurements);
                     return CustomCard(
                       particleCount: (sensor.measurements.length > 0
                               ? sensor
@@ -168,10 +212,10 @@ class _HomeState extends State<Home> {
         width: MediaQuery.of(context).size.width * 0.9,
         child: FlatButton(
             height: 40,
-            color: Color(0xffD925A9),
+            color: Color(0xff304C90),
             shape: RoundedRectangleBorder(
                 side: BorderSide(
-                    color: Color(0xffA62182),
+                    color: Color(0xff304C90),
                     width: 1,
                     style: BorderStyle.solid),
                 borderRadius: BorderRadius.circular(20)),
@@ -223,18 +267,23 @@ class _HomeState extends State<Home> {
         .doc('$id')
         .get()
         .then((sensor) {
-          return sensor.reference
-            .collection('measurements')
-            .orderBy('time', descending: true)
-            .get()
-            .then((measurements) {
-              List<SensorMeasurement> ms = <SensorMeasurement>[];
-              measurements.docs.forEach((element) {
-                final m = SensorMeasurement.fromJSON(element.data());
-                ms.add(m);
-              });
-              return Sensor(id, sensor.data()['name'] ?? '', sensor.data()['description'] ?? '', sensor.data()['comment'] ?? '', ms);
-            });
-        }).asStream();
+      return sensor.reference
+          .collection('measurements')
+          .orderBy('time', descending: true)
+          .get()
+          .then((measurements) {
+        List<SensorMeasurement> ms = <SensorMeasurement>[];
+        measurements.docs.forEach((element) {
+          final m = SensorMeasurement.fromJSON(element.data());
+          ms.add(m);
+        });
+        return Sensor(
+            id,
+            sensor.data()['name'] ?? '',
+            sensor.data()['description'] ?? '',
+            sensor.data()['comment'] ?? '',
+            ms);
+      });
+    }).asStream();
   }
 }
